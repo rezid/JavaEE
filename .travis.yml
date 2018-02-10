@@ -18,11 +18,13 @@ deploy:
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
     bucket: votebucket.upec
-    key: latest.war
+    key: latest.zip
+    bundle_type: zip
     application: javaee
     deployment_group: javaeegroupe
     region: eu-west-1
 
 script:
+  - zip latest target/JavaEE-1.0-SNAPSHOT.war
   - mkdir -p dpl_cd_upload
-  - mv target/JavaEE-1.0-SNAPSHOT.war dpl_cd_upload/latest.war
+  - mv latest.zip dpl_cd_upload/latest.zip
