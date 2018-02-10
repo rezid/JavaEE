@@ -2,7 +2,13 @@ language: java
 
 cache:
   directories:
-    - target
+    - $HOME/.m2
+
+script:
+  - mv target/JavaEE-1.0-SNAPSHOT.war app.war
+  - zip latest app.war appspec.yml
+  - mkdir -p dpl_cd_upload
+  - mv latest.zip dpl_cd_upload/latest.zip
 
 deploy:
 
@@ -24,7 +30,4 @@ deploy:
     deployment_group: javaeegroupe
     region: eu-west-1
 
-script:
-  - zip latest target/JavaEE-1.0-SNAPSHOT.war appspec.yml
-  - mkdir -p dpl_cd_upload
-  - mv latest.zip dpl_cd_upload/latest.zip
+
