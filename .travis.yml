@@ -19,7 +19,6 @@ deploy:
     secret_access_key: $AWS_SECRET_KEY
     bucket: votebucket.upec
     key: latest.war
-    bundle_type: war
     application: javaee
     deployment_group: javaeegroupe
     region: eu-west-1
