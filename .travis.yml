@@ -1,1 +1,28 @@
 language: java
+
+cache:
+  directories:
+    - target
+
+deploy:
+  - provider: s3
+      access_key_id: $AWS_ACCESS_KEY
+      secret_access_key: $AWS_SECRET_KEY
+      local_dir: dpl_cd_upload
+      skip_cleanup: true
+      bucket: votebucket.upec
+      region: eu-west-1
+
+  - provider: codedeploy
+      access_key_id: $AWS_ACCESS_KEY
+      secret_access_key: $AWS_SECRET_KEY
+      bucket: votebucket.upec
+      key: latest.war
+      bundle_type: war
+      application: javaee
+      deployment_group: javaeegroup
+      region: eu-west-1
+
+script:
+  - mkdir -p dpl_cd_upload
+  - mv target/JavaEE-1.0-SNAPSHOT.war dpl_cd_upload/latest.war
