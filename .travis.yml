@@ -19,7 +19,7 @@ deploy:
     key: latest.war
     bundle_type: war
     application: javaee
-    deployment_group: javaeegroup
+    deployment_group: javaeegroupe
     region: eu-west-1
 
 script:
