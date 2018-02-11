@@ -6,7 +6,7 @@ cache:
 
 script:
   - mv target/JavaEE-1.0-SNAPSHOT.war app.war
-  - zip latest app.war appspec.yml
+  - zip latest app.war appspec.yml scripts/deploy.sh
   - mkdir -p dpl_cd_upload
   - mv latest.zip dpl_cd_upload/latest.zip
 
