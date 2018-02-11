@@ -4,7 +4,7 @@ files:
   - source: ./
     destination: /home/ec2-user/vote/glassfish-war-image
 hooks:
-  ApplicationStart:
+  AfterInstall:
     - location: /home/ec2-user/vote/glassfish-war-image/script.sh
       timeout: 300
       runas: root
