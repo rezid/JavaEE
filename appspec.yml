@@ -2,4 +2,9 @@ version: 0.0
 os: linux
 files:
   - source: ./
-    destination: /home/ec2-user/war
+    destination: /home/ec2-user/vote/glassfish-war-image
+hooks:
+  ApplicationStart:
+    - location: /home/ec2-user/vote/glassfish-war-image/script.sh
+      timeout: 300
+      runas: root
