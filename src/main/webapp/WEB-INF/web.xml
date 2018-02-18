@@ -3,28 +3,34 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
-
-    <!-- Configure JSF -->
+    <!-- This name is used by other tools like GlassFish statistics or log4j2 logs -->
+    <display-name>web-xml-display-name</display-name>
+    <!-- Configure JSF : Create FacesServlet -->
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <!-- Configure JSF : Make the FacesServlet the controller of all xhtml files -->
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
+    <!-- Configure JSF : Set session timeout -->
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-
+    <!-- Show JSF debugging information in server log -->
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
     <!-- Start page -->
     <welcome-file-list>
         <welcome-file>greeting.xhtml</welcome-file>
     </welcome-file-list>
-
     <!-- Data source Localhost -->
     <data-source>
         <name>java:global/jdbc/localhost</name>
@@ -35,5 +41,4 @@
         <user>upecadmin</user>
         <password>upecadmin</password>
     </data-source>
-
 </web-app>

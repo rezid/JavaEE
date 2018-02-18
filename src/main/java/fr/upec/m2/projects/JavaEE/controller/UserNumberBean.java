@@ -1,5 +1,8 @@
 package fr.upec.m2.projects.JavaEE.controller;
 
+import fr.upec.m2.projects.JavaEE.annotation.Trace;
+import org.apache.logging.log4j.*;
+
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -7,6 +10,7 @@ import java.util.Random;
 
 @Named
 @SessionScoped
+@Trace
 public class UserNumberBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer randomInt = null;
@@ -17,8 +21,7 @@ public class UserNumberBean implements Serializable {
 
     public UserNumberBean() {
         Random random = new Random();
-        randomInt = new Integer(random.nextInt(maximum + 1));
-        System.out.println("Random number: " + randomInt);
+        randomInt = random.nextInt(maximum + 1);
     }
 
     public Integer getUserNumber() {

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Note1: trace < debug < info < warn < error < fatal -->
+<!-- Note2: We use the strict XML format so we can validate with an incomplete Log4j-config.xsd -->
+<!-- Note3: the attribute monitorInterval is not thread safe, so it will not be used in production -->
+<!-- Bug: the directory log must be present for "dest" attribute to succeed -->
+<Configuration strict="true"
+               status="debug"
+               monitorInterval="5"
+               dest="logs/log4j2.log"
+               verbose="true"
+               name="XMLConfig"
+               xmlns="http://logging.apache.org/log4j/2.0/config"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://logging.apache.org/log4j/2.0/config https://raw.githubusercontent.com/apache/logging-log4j2/master/log4j-core/src/main/resources/Log4j-config.xsd">
+    <Properties>
+        <Property name="filename">logs/application.log</Property>
+    </Properties>
+    <Appenders>
+        <Appender type="File" name="File" fileName="${filename}">
+            <Layout type="PatternLayout">
+                <Pattern>%d{HH:mm:ss.SSS} %5p [%t] [%c{1}] - %m%n</Pattern>
+            </Layout>
+        </Appender>
+    </Appenders>
+    <Loggers>
+        <Root level="trace">
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+</Configuration>
