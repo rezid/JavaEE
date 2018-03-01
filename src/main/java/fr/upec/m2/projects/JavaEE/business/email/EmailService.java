@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Model;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import fr.upec.m2.projects.JavaEE.business.email.EmailTemplate.EmailTemplatePart;
 import fr.upec.m2.projects.JavaEE.business.exception.SystemException;
@@ -21,11 +24,9 @@ public abstract class EmailService  {
 
     private EmailUser defaultEmailUser;
 
-    @Inject
-    private String fromEmail;
+    private String fromEmail = "Vote Example &lt;support@vote.fr&gt;"; // TODO: inject it from a property file
 
-    @Inject
-    private Boolean disableEmailService;
+    private Boolean disableEmailService = true; // TODO: inject it from a property file
 
     @Inject
     private EmailTemplateService emailTemplateService;

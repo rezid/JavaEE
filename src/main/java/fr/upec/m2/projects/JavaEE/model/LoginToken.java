@@ -6,6 +6,14 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 @Entity
+@NamedQueries({
+    @NamedQuery(
+            name="LoginToken.remove",
+            query="DELETE FROM LoginToken _loginToken WHERE _loginToken.tokenHash = :tokenHash"),
+    @NamedQuery(
+            name="LoginToken.removeExpired",
+            query="DELETE FROM LoginToken _loginToken WHERE _loginToken.expiration < CURRENT_TIMESTAMP")
+})
 public class LoginToken implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -14,6 +14,16 @@ import static java.util.stream.Collectors.toSet;
 import static javax.persistence.FetchType.EAGER;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name="User.getByEmail",
+                query="SELECT _user FROM User _user WHERE _user.email = :email"),
+        @NamedQuery(
+                name="User.getByLoginToken",
+                query="SELECT _user FROM User _user JOIN _user.loginTokens _loginToken JOIN FETCH _user.loginTokens " +
+                        "WHERE _loginToken.tokenHash = :tokenHash AND _loginToken.type = :tokenType " +
+                        "AND _loginToken.expiration > CURRENT_TIMESTAMP")
+})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
