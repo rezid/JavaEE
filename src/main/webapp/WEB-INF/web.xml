@@ -5,40 +5,33 @@
          version="3.1">
     <!-- This name is used by other tools like GlassFish statistics or log4j2 logs -->
     <display-name>web-xml-display-name</display-name>
-    <!-- Configure JSF : Create FacesServlet -->
-    <servlet>
-        <servlet-name>Faces Servlet</servlet-name>
-        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <!-- Configure JSF : Make the FacesServlet the controller of all xhtml files -->
-    <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.xhtml</url-pattern>
-    </servlet-mapping>
     <!-- Configure JSF : Set session timeout -->
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    <!-- Show JSF debugging information in server log -->
+    <!-- Show JSF debugging information in server log (when we forget to add <h:messages> to facelets page) -->
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
-        <param-value>Development</param-value>
+        <param-value>Development</param-value> <!-- TODO: parameterize this. -->
     </context-param>
     <!-- Start page -->
     <welcome-file-list>
-        <welcome-file>greeting.xhtml</welcome-file>
+        <welcome-file>home.xhtml</welcome-file>
     </welcome-file-list>
     <!-- Data source Localhost -->
     <data-source>
-        <name>java:global/jdbc/localhost</name>
-        <class-name>com.mysql.jdbc.Driver</class-name>
-        <server-name>localhost</server-name>
-        <port-number>3306</port-number>
-        <database-name>vote</database-name>
+        <name>java:app/jdbc/localhost</name>
+        <class-name>com.mysql.jdbc.jdbc2.optional.MysqlDataSource</class-name>
+        <url>jdbc:mysql://localhost:3306/vote</url>
         <user>upecadmin</user>
         <password>upecadmin</password>
+        <transactional>true</transactional>
+        <isolation-level>TRANSACTION_READ_COMMITTED</isolation-level>
+        <initial-pool-size>2</initial-pool-size>
+        <max-pool-size>10</max-pool-size>
+        <min-pool-size>5</min-pool-size>
+        <max-statements>0</max-statements>
     </data-source>
 </web-app>
