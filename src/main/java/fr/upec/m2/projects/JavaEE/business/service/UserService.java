@@ -17,6 +17,7 @@ import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,7 +27,9 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 @Stateless
-public class UserService {
+public class UserService implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private static final int DEFAULT_SALT_LENGTH = 40;
     private static final long DEFAULT_PASSWORD_RESET_EXPIRATION_TIME_IN_MINUTES = TimeUnit.HOURS.toMinutes(1);

@@ -16,10 +16,30 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value> <!-- TODO: parameterize this. -->
     </context-param>
-    <!-- Start page -->
+    <!-- Welcome files and error pages. -->
     <welcome-file-list>
-        <welcome-file>home.xhtml</welcome-file>
+        <welcome-file>home</welcome-file>
     </welcome-file-list>
+    <error-page>
+        <error-code>400</error-code>
+        <location>/WEB-INF/errorpages/400.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/errorpages/404.xhtml</location> <!-- We don't want to leak restricted pages, so 404 instead of 403. -->
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/errorpages/404.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/errorpages/500.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/WEB-INF/errorpages/expired.xhtml</location>
+    </error-page>
     <!-- Data source Localhost -->
     <data-source>
         <name>java:app/jdbc/localhost</name>
@@ -34,4 +54,50 @@
         <min-pool-size>5</min-pool-size>
         <max-statements>0</max-statements>
     </data-source>
+    <!-- Define Roles -->
+    <security-role>
+        <role-name>VIEW_USER_PAGES</role-name>
+    </security-role>
+    <security-role>
+        <role-name>VIEW_ADMIN_PAGES</role-name>
+    </security-role>
+    <security-role>
+        <role-name>ACCESS_API</role-name>
+    </security-role>
+    <!-- Create security constraint for the role defined -->
+    <security-constraint>
+        <display-name>Restrict direct access to the /resources folder.</display-name> <!-- We could have used javax.faces.WEBAPP_RESOURCES_DIRECTORY, but this doesn't cover resources from JARs. -->
+        <web-resource-collection>
+            <web-resource-name>The /resources folder.</web-resource-name>
+            <url-pattern>/resources/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint />
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>User pages</web-resource-name>
+            <url-pattern>/user/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>VIEW_USER_PAGES</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Admin pages</web-resource-name>
+            <url-pattern>/admin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>VIEW_ADMIN_PAGES</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>OAuth authorization</web-resource-name>
+            <url-pattern>/oauth/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ACCESS_API</role-name>
+        </auth-constraint>
+    </security-constraint>
 </web-app>

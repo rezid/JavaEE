@@ -54,7 +54,7 @@ public class PageBean {
 
     public PageBean(String path) {
         this.path = path;
-        this.name = path;
+        this.name = path.replaceFirst("WEB\\-INF/", "").replaceAll("\\W+", "_");
         this.home = name.equals("home");
         current = this;
     }
