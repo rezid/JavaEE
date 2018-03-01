@@ -6,17 +6,17 @@
     <li class="right">
         <c:choose>
             <c:when test="#{true}">
-                <button>Login</button>
+                <h:link styleClass="login" outcome="login" value="Login"/>
             </c:when>
             <c:otherwise>
                 <a href="javascript:void(0)">Logged</a>
                 <ul>
                     <li>
-                        <h:link outcome="user/profile" value="Profile"/>
+
                     </li>
                     <c:if test="#{true}">
                         <li>
-                            <h:link outcome="user/admin" value="Admin access only" />
+                            <h:link outcome="admin/users" value="Admin access only" />
                         </li>
                     </c:if>
                     <li>

@@ -72,7 +72,7 @@ nav .right {
     float: right;
 }
 
-nav button {
+nav .login {
     color: white;
     background-color: dodgerblue;
     border: 0;
