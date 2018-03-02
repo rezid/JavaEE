@@ -28,7 +28,7 @@ public class LoginToken implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(length = 32, unique = true)
+    @Column(columnDefinition="CHAR(32)", unique = true)
     private byte[] tokenHash;
 
     @Column

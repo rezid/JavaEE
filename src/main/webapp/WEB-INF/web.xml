@@ -18,7 +18,7 @@
     </context-param>
     <!-- Welcome files and error pages. -->
     <welcome-file-list>
-        <welcome-file>home</welcome-file>
+        <welcome-file>home.xhtml</welcome-file>
     </welcome-file-list>
     <error-page>
         <error-code>400</error-code>
@@ -100,4 +100,9 @@
             <role-name>ACCESS_API</role-name>
         </auth-constraint>
     </security-constraint>
+    <!-- JSF Facelets will not skip the comments while parsing the view xhtml template par default -->
+    <context-param>
+        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
 </web-app>

@@ -3,29 +3,32 @@
         xmlns:h="http://xmlns.jcp.org/jsf/html"
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <li class="right">
-        <c:choose>
-            <c:when test="#{true}">
-                <h:link styleClass="login" outcome="login" value="Login"/>
-            </c:when>
-            <c:otherwise>
-                <a href="javascript:void(0)">Logged</a>
-                <ul>
-                    <li>
 
-                    </li>
-                    <c:if test="#{true}">
-                        <li>
-                            <h:link outcome="admin/users" value="Admin access only" />
-                        </li>
-                    </c:if>
-                    <li>
-                        <h:form id="logoutForm" fieldset="false">
-                            <h:commandLink value="Logout" action="#{true}" />
-                        </h:form>
-                    </li>
-                </ul>
+        <c:choose>
+            <c:when test="#{not activeUser.present}">
+                <li class="right" ><a href="login.xhtml">Login</a></li>
+            </c:when>
+
+            <c:otherwise>
+                <li class="dropdown right">
+                    <a href="javascript:void(0)" class="dropbtn">User</a>
+                    <div class="dropdown-content">
+                        <a href="user/profile.xhtml">Mon Profile</a>
+                        <c:if test="#{activeUser.can('VIEW_ADMIN_PAGES')}">
+                            <a href="admin/users.xhtml">Utilisateurs</a>
+                        </c:if>
+                        <a href="home.xhtml">Logout</a>
+                    </div>>
+
+                    <!--
+                    <h:form id="logoutForm" fieldset="false">
+                        <h:commandLink value="Logout" action="#{logoutBacking.logout}" />
+                    </h:form>
+                    -->
+
+                </li>
+
             </c:otherwise>
         </c:choose>
-    </li>
+
 </ui:composition>

@@ -27,13 +27,41 @@
     <h:body id="page_#{pageBean.name}">
 
         <header>
+            <nav>
+                <ui:insert name="nav-header">
+                    <ui:include src="/layout/nav-header.xhtml" />
+                </ui:insert>
+            </nav>
         </header>
 
-        <nav>
-            <ui:insert name="nav-header">
-                <ui:include src="/layout/nav-header.xhtml" />
-            </ui:insert>
-        </nav>
+        <main>
+            <header>
+                <h1><ui:insert name="h1">#{pageBean.name}</ui:insert></h1>
+            </header>
+
+            <article>
+                <ui:insert name="content">
+                    <section>
+                        <p>This is a  Java EE skeleton application that can be used to kickoff the development of a web application.</p>
+                        <p>The source code of this project is hosted on <a href="https://github.com/javaeekickoff/java-ee-kickoff-app" target="_blank">GitHub</a>.</p>
+
+                        <p>Ceci est un projet du module Java EE enseigné a l'UPEC pour l'année universitaire 2017/2018.</p>
+                        <p>Le source code de ce projet est heberger dans le <a href="https://github.com/rezid/JavaEE" target="_blank">GitHub</a>.</p>
+                    </section>
+                </ui:insert>
+            </article>
+        </main>
+
+        <footer>
+            <footer>
+                <ui:insert name="nav-footer">
+                    <ui:include src="/layout/nav-footer.xhtml" />
+                </ui:insert>
+            </footer>
+            <p>
+                <small>© Etuduant D'UPEC 2018</small>
+            </p>
+        </footer>
 
 
 
