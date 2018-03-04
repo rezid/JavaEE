@@ -2,4 +2,64 @@
 
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets" />
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+>
+
+    <ui:define name="content">
+        <section class="filter">
+            <h4>4049 enregistrement(s) trouvé(s)</h4>
+            <p>Aucun filtre actif.</p>
+            <h4>Filtre statique</h4>
+            <ul>
+                <li class="select">
+                    <label for="type">Type de vote: </label>
+                    <select id="type" name="type">
+                        <option value="1">Elections présidentielles 2017 1er tours</option>
+                        <option value="2">Elections présidentielles 2017 2ème tours</option>
+                        <option value="3">Elections législatives 2017 1er tours</option>
+                        <option value="4">Elections législatives 2017 2ème tours</option>
+                    </select>
+                </li>
+
+                <li class="select">
+                    <label for="arrondissement">Arrondissement: </label>
+                    <select id="arrondissement" name="arrondissement">
+                        <option value="0">Tout</option>
+                        <option value="1">1er</option>
+                        <option value="2">2éme</option>
+                    </select>
+                </li>
+
+                <li class="select">
+                    <label for="adresse">Adresse: </label>
+                    <input type="text" id="adresse" name="adresse" placeholder="47 Rue President Macron"/>
+                </li>
+
+            </ul>
+        </section>
+
+        <section class="contenu">
+            <h2>Adresse</h2>
+            <div id="scrolltable">
+                <table id="adresse_de_vote">
+                    <tr>
+                        <th>Libellé du bureau de vote</th>
+                        <th>Adresse</th>
+                        <th>Code Postal</th>
+                    </tr>
+                    <tr>
+                        <td>Alfreds Futterkiste</td>
+                        <td>Maria Anders</td>
+                        <td>Germany</td>
+                    </tr>
+
+                </table>
+            </div>
+        </section>
+    </ui:define>
+
+    <ui:define name="h1">
+        Listes des bureaux de vote
+    </ui:define>
+
+</ui:composition>

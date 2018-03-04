@@ -34,7 +34,7 @@
             </nav>
         </header>
 
-        <main>
+        <main class="container">
             <header>
                 <h1><ui:insert name="h1">#{pageBean.name}</ui:insert></h1>
             </header>
@@ -49,19 +49,11 @@
             </article>
         </main>
 
-        <footer>
-            <footer>
-                <ui:insert name="nav-footer">
-                    <ui:include src="/layout/nav-footer.xhtml" />
-                </ui:insert>
-            </footer>
-            <p>
-                <small>© Etudiant D'UPEC 2018</small>
-            </p>
+        <footer class="footer">
+            <ui:insert name="nav-footer">
+                <ui:include src="/layout/nav-footer.xhtml" />
+            </ui:insert>
         </footer>
-
-
-
     </h:body>
 </f:view>
 </html>
