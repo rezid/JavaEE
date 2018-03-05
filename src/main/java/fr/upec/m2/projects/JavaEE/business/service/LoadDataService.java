@@ -38,10 +38,9 @@ public class LoadDataService {
                     .parse(in);
 
             for (CSVRecord record : records) {
-
                 Bureau bureau = new Bureau(
                         record.get("objectid"),
-                        record.get("num_bv"),
+                        record.get("id_bv"),
                         record.get("lib"),
                         record.get("adresse"),
                         record.get("cp")

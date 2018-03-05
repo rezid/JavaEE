@@ -48,6 +48,13 @@
                                  id="adresse_de_vote">
                         <h:column>
                             <f:facet name="header">
+                                id bureau de vote
+                            </f:facet>
+                            #{bureau.numero_bureau}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
                                 <h:commandLink action="#{bureauBean.sortByOrder('BY_LIB')}">
                                     <f:ajax render="@form"/>
                                     Libellé du bureau de vote
