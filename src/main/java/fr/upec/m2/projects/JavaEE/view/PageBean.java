@@ -14,9 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Named
 @Dependent
-@Trace
 public class PageBean {
-    private static final Logger LOG = LogManager.getLogger();
     private static final Map<String, PageBean> PAGES = new ConcurrentHashMap<>();
 
     private PageBean current;
@@ -35,16 +33,6 @@ public class PageBean {
     public void init() {
         String viewId = facesContext.getViewRoot().getViewId(); // Exemple: viewId = /test/home.xhtml
         current = get(viewId.substring(1, viewId.lastIndexOf('.')));
-
-        // print all PAGES in log
-        if(LOG.isDebugEnabled()) {
-            LOG.debug("PAGES = {");
-            PAGES.forEach((s, pageBean) -> {
-                LOG.debug("  path = {}", s);
-            });
-            LOG.debug("}");
-            LOG.debug("Current path is {}", current.path);
-        }
     }
 
     public PageBean get(String path) {

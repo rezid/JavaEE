@@ -9,7 +9,6 @@ import javax.validation.constraints.NotEmpty;
 
 @Named
 @RequestScoped
-@Trace
 public class UserBean {
     private String firstName;
     private String lastName;

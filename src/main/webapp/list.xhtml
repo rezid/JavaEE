@@ -3,59 +3,83 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
 >
-
     <ui:define name="content">
-        <section class="filter">
-            <h4>4049 enregistrement(s) trouvé(s)</h4>
-            <p>Aucun filtre actif.</p>
-            <h4>Filtre statique</h4>
-            <ul>
-                <li class="select">
-                    <label for="type">Type de vote: </label>
-                    <select id="type" name="type">
-                        <option value="1">Elections présidentielles 2017 1er tours</option>
-                        <option value="2">Elections présidentielles 2017 2ème tours</option>
-                        <option value="3">Elections législatives 2017 1er tours</option>
-                        <option value="4">Elections législatives 2017 2ème tours</option>
-                    </select>
-                </li>
+        <h:form>
+            <section class="filter">
+                <h4>#{bureauBean.listSize} enregistrement(s) trouvé(s)</h4>
+                    <ui:repeat value="#{bureauBean.filterList}" var="filter">
+                        <p>#{filter.name}: #{filter.value}</p>
+                    </ui:repeat>
+                <h4>Filtre statique</h4>
+                <ul>
+                    <li class="select">
+                        <label>Arrondissement: </label>
+                        <h:selectOneMenu value = "#{bureauBean.codePostale}">
+                            <f:selectItem itemValue = "75000" itemLabel = "Tous" />
+                            <f:selectItem itemValue = "75001" itemLabel = "1" />
+                            <f:selectItem itemValue = "75002" itemLabel = "2" />
+                            <f:selectItem itemValue = "75003" itemLabel = "3" />
+                            <f:selectItem itemValue = "75004" itemLabel = "4" />
+                            <f:selectItem itemValue = "75005" itemLabel = "5" />
+                            <f:selectItem itemValue = "75006" itemLabel = "6" />
+                            <f:ajax render="@form" />
+                        </h:selectOneMenu>
+                    </li>
+                </ul>
+                <h4>Recherche par adresse</h4>
+                <ul>
+                    <li class="select">
+                        <label for="adresse">Votre adresse: </label>
+                        <input type="text" id="adresse" name="adresse" placeholder="47 Rue President Macron"/>
+                    </li>
+                </ul>
+            </section>
 
-                <li class="select">
-                    <label for="arrondissement">Arrondissement: </label>
-                    <select id="arrondissement" name="arrondissement">
-                        <option value="0">Tout</option>
-                        <option value="1">1er</option>
-                        <option value="2">2éme</option>
-                    </select>
-                </li>
+            <section class="contenu">
+                <h2>Adresse</h2>
+                <div id="scrolltable">
+                    <h:dataTable value="#{bureauBean.bureauList}"
+                                 var="bureau"
+                                 id="adresse_de_vote">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_LIB')}">
+                                    <f:ajax render="@form"/>
+                                    Libellé du bureau de vote
+                                </h:commandLink>
+                            </f:facet>
+                            #{bureau.label_bureau}
+                        </h:column>
 
-                <li class="select">
-                    <label for="adresse">Adresse: </label>
-                    <input type="text" id="adresse" name="adresse" placeholder="47 Rue President Macron"/>
-                </li>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ADR')}">
+                                    <f:ajax render="@form"/>
+                                    Adresse
+                                </h:commandLink>
+                            </f:facet>
+                                #{bureau.adresse_bureau}
+                        </h:column>
 
-            </ul>
-        </section>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_CP')}">
+                                    <f:ajax render="@form"/>
+                                    Code Postal
+                                </h:commandLink>
+                            </f:facet>
+                                #{bureau.code_postal_bureau}
+                        </h:column>
 
-        <section class="contenu">
-            <h2>Adresse</h2>
-            <div id="scrolltable">
-                <table id="adresse_de_vote">
-                    <tr>
-                        <th>Libellé du bureau de vote</th>
-                        <th>Adresse</th>
-                        <th>Code Postal</th>
-                    </tr>
-                    <tr>
-                        <td>Alfreds Futterkiste</td>
-                        <td>Maria Anders</td>
-                        <td>Germany</td>
-                    </tr>
-
-                </table>
-            </div>
-        </section>
+                    </h:dataTable>
+                </div>
+            </section>
+        </h:form>
     </ui:define>
 
     <ui:define name="h1">

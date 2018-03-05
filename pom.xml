@@ -48,6 +48,12 @@
             <artifactId>hibernate-entitymanager</artifactId>
             <version>5.2.13.Final</version>
         </dependency>
+        <!-- For parsing CSV file and load data in DB -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.5</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

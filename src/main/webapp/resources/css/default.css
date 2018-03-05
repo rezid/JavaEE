@@ -157,27 +157,34 @@ header .logo {
 
 }
 
-#adresse_de_vote {
+.container .contenu div table {
     border-collapse: collapse;
     width: 100%;
     overflow: scroll;
 }
 
-#adresse_de_vote td, #adresse_de_vote th {
+.container .contenu div table td, .container .contenu div table th {
     border: 1px solid #ddd;
     padding: 8px;
 }
 
-#adresse_de_vote tr:nth-child(even){background-color: #f2f2f2;}
+.container .contenu div table tr:nth-child(even){background-color: #f2f2f2;}
 
-#adresse_de_vote tr:hover {background-color: #ddd;}
+.container .contenu div table tr:hover {background-color: #ddd;}
 
-#adresse_de_vote th {
+.container .contenu div table th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
-    background-color: #4CAF50;
+    background-color: #333333;
     color: white;
+}
+
+.container .contenu div table th a {
+    color: white;
+    text-align: left;
+    display: inline-block;
+    text-decoration: none;
 }
 
 #scrolltable { margin-top: 20px; max-height: 400px; overflow: auto; }

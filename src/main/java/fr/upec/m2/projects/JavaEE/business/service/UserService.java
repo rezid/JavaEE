@@ -47,7 +47,6 @@ public class UserService implements Serializable {
     @PersistenceContext
     private EntityManager entityManager;
 
-
     public void registerUser(User user, String password) {
         if (findByEmail(user.getEmail()).isPresent()) {
             throw new DuplicateEntityException();
