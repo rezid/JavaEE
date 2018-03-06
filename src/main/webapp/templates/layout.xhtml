@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+<f:view contentType="text/html">
+
+    <h:outputStylesheet name="css/colors.css" />
+    <h:outputStylesheet name="css/default.css" />
+
+    <h:head id="head">
+        <title>
+            <ui:insert name="title">
+                #{pageBean.home ? '' : pageBean.name}
+            </ui:insert>
+            #{pageBean.home ? '' : ' | '}Vote
+        </title>
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+        <meta name="viewport" content="width=device-width,maximum-scale=2" />
+    </h:head>
+
+
+    <h:body id="page_#{pageBean.name}">
+
+        <header>
+            <nav>
+                <ui:insert name="nav-header">
+                    <ui:include src="/layout/nav-header.xhtml" />
+                </ui:insert>
+            </nav>
+        </header>
+
+        <main class="container">
+            <header>
+                <h1><ui:insert name="h1">#{pageBean.name}</ui:insert></h1>
+            </header>
+
+            <article>
+                <ui:insert name="content">
+                    <section>
+                        <p>Ceci est un projet du module Java EE enseigné a l'UPEC pour l'année universitaire 2017/2018.</p>
+                        <p>Le source code de ce projet est heberger dans le <a href="https://github.com/rezid/JavaEE" target="_blank">GitHub</a>.</p>
+                    </section>
+                </ui:insert>
+            </article>
+        </main>
+
+        <footer class="footer">
+            <ui:insert name="nav-footer">
+                <ui:include src="/layout/nav-footer.xhtml" />
+            </ui:insert>
+        </footer>
+    </h:body>
+</f:view>
+</html>

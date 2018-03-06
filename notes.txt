@@ -1,0 +1,25 @@
+-------------- JSF 2.3 --------------------
+NOTES:
+- We use CDI named bean (not JSF managed Bean).
+- We use javax.faces.PROJECT_STAGE parameter in web.xml set to Development (to solve: if we forget to add h:messgae we cant debug anymore).
+- We use @FacesConfig to activate JSF (we d'ont need to add mapping servlet in web.xml anymore) ==> see URL 1
+- We use HTML 5 tag only with passthrough JSF elements to have 100% control with CSS (no JSF Tag)
+- JSF still process the value expression in comment between must use FACELETS_SKIP_COMMENTS ==> see URL 2
+
+URL:
+1) https://github.com/javaee/glassfish/issues/22094
+2) https://stackoverflow.com/questions/3500738/invisible-comments-in-jsf-2-0
+
+-------------- JPA ------------------------
+NOTES:
+- length element in @Colomn Applies only if a string-valued column is used,
+  MYSQL need fixed length on unique (or key) of type BLOB and TEXT,
+  it well cause problem in example:
+      @Column(length = 32, unique = true)
+      private byte[] tokenHash;
+  So we must use a columnDefinition
+  ==> see URL 1, 2
+
+URL:
+1)
+2) https://stackoverflow.com/questions/3821650/storing-a-hash-as-byte-array-with-jpa?rq=1

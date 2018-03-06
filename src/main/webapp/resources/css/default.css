@@ -1,0 +1,236 @@
+/* ----------------------------------------- */
+
+body {
+    margin: 0;
+    background-color: #f2f2f2;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+/* The Top navigation bar */
+header nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+header nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+header nav li {
+    float: left;
+}
+
+header nav li:last-child {
+    padding-right: 20px;
+}
+
+header nav a, header .dropbtn {
+    display: inline-block;
+    color: darkgray;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+header nav > ul > li > a:hover, header .dropdown:hover .dropbtn {
+    color: white;
+}
+
+header nav li.dropdown {
+    display: inline-block;
+}
+
+header .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+header .dropdown-content a:hover {
+    background-color: #f1f1f1
+}
+
+header .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+header .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+header nav .right {
+    float: right;
+}
+
+header nav .right a {
+    color: white;
+    display: flex;
+    border: 5px solid #333;
+    background-color: dodgerblue;
+    padding: 10px;
+    text-align: center;
+}
+
+header nav .login {
+    color: white;
+    background-color: dodgerblue;
+    border: 0;
+    padding: 10px 26px;
+    margin-top: 5px;
+}
+
+header .logo {
+    height: 28px;
+    padding-top: 8px;
+    padding-left: 10px;
+}
+
+
+/* The Container */
+.container {
+    padding: 50px;
+
+}
+
+.container .filter {
+    background-color: white;
+    padding: 10px;
+    margin: 10px;
+    float: left;
+    width: 300px;
+}
+
+.container .filter h4 {
+    background-color: #333333;
+    padding: 10px;
+    color: white;
+}
+
+.container .filter ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+}
+
+.container .filter ul .select  {
+    padding: 10px;
+    border-bottom: white solid 2px;
+    float: top;
+
+}
+
+.container .filter ul .select label  {
+    width: 60%;
+}
+
+.container .filter ul .select input  {
+    width: 70%;
+    height: 20px;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+.container .filter ul .select select  {
+    width: 55%;
+    background-color: #f1f1f1;
+}
+
+.container .contenu {
+    background-color: white;
+    padding: 10px;
+    margin: 10px;
+    width:calc(100% - 380px);
+    float: left;
+
+}
+
+.container .contenu div table {
+    border-collapse: collapse;
+    width: 100%;
+    overflow: scroll;
+}
+
+.container .contenu div table td, .container .contenu div table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.container .contenu div table tr:nth-child(even){background-color: #f2f2f2;}
+
+.container .contenu div table tr:hover {background-color: #ddd;}
+
+.container .contenu div table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #333333;
+    color: white;
+}
+
+.container .contenu div table th a {
+    color: white;
+    text-align: left;
+    display: inline-block;
+    text-decoration: none;
+}
+
+#scrolltable { margin-top: 20px; max-height: 400px; overflow: auto; }
+#scrolltable table { border-collapse: collapse; }
+#scrolltable tr:nth-child(even) { background: #EEE; }
+#scrolltable th div { position: absolute; margin-top: -10px; }
+
+/* footer */
+.footer {
+    display: flex;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    background-color: #f2f2f2;
+}
+
+.footer section {
+    float: left;
+    padding-right: 50px;
+}
+.footer section:first-child {
+    padding-left: 50px;
+}
+
+.footer ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.footer h4 {
+    padding-bottom: 6px;
+    padding-right:  16px;
+    padding-left: 16px;
+}
+
+.footer li a {
+    display: block;
+    color: dodgerblue;
+    text-align: left;
+    padding: 4px 16px;
+    text-decoration: none;
+}
+
+.footer ul li:last-child a {
+    padding-bottom: 30px;
+}
+
