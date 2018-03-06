@@ -37,8 +37,9 @@ public class LoadDataService {
             Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(';')
                     .withHeader("objectid","num_bv","lib","adresse","cp","id_bv","geo_shape","geo_point_2d")
                     .parse(in);
-
+            int i=0;
             for (CSVRecord record : records) {
+                i++;
                 Bureau bureau = new Bureau(
                         record.get("objectid"),
                         record.get("id_bv"),
@@ -47,6 +48,8 @@ public class LoadDataService {
                         record.get("cp")
                 );
                 entityManager.persist(bureau);
+            if(i==100)
+                break;
             }
             LOG.info("Loading in DB is done: bureaux.csv");
         } catch (UnsupportedEncodingException e) {
@@ -71,8 +74,9 @@ public class LoadDataService {
                             "prenom_du_candidat_ou_liste","nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote","nombre_de_nuls_uniquement_du_bureau_de_vote",
                             "nombre_de_blancs_uniquement_du_bureau_de_vote", "nombre_de_procurations_du_bureau_de_vote")
                     .parse(in);
-
+             int i=0;
             for (CSVRecord record : records) {
+                i++;
                 Resultat_psd_1 resultat = new Resultat_psd_1(
                         record.get("numero_d_arrondissement_01_a_20"),
                         record.get("numero_de_bureau_de_vote_000_a_999"),
@@ -85,7 +89,9 @@ public class LoadDataService {
                 );
                 entityManager.persist(resultat);
 
-                LOG.error(resultat.getNom_du_candidat() + " " + resultat.getPrenom_du_candidat());
+                //LOG.error(resultat.getNom_du_candidat() + " " + resultat.getPrenom_du_candidat());
+                if(i==100)
+                    break;
             }
             LOG.info("Loading in DB is done: bureaux.csv");
         } catch (UnsupportedEncodingException e) {
