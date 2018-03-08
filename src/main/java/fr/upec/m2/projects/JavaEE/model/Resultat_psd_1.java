@@ -5,15 +5,18 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-/*
+
 @NamedQueries({
+     @NamedQuery(
+                name = "Resultat_psd_1.getListCandidat",
+                query = "SELECT DISTINCT _result.nom_du_candidat, _result.prenom_du_candidat FROM Resultat_psd_1 _result"),
+   
         @NamedQuery(
-                name = "Resultat_psd_1.getGlobalResult",
-                query = "SELECT _resultat FROM Resultat_psd_1 _resultat" +
-                        "WHERE _resultat.nom_complet = :nom" +
-                        "GROUPBY ")
+                name = "Resultat_psd_1.getResultByName",
+                query = "SELECT _result FROM Resultat_psd_1 _result "
+                        + "WHERE _result.nom_du_candidat = :nomC AND _result.prenom_du_candidat = :prenomC"),
+
 })
-*/
 public class Resultat_psd_1 implements Serializable {
 
     private static final long serialVersionUID = 1L;

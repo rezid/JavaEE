@@ -2,4 +2,88 @@
 
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets" />
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+>
+    <ui:define name="content">
+        <h:form>
+            <section class="filter">
+                <h4>#{bureauBean.listSize} enregistrement(s) trouvé(s)</h4>
+                    <ui:repeat value="#{bureauBean.filterList}" var="filter">
+                        <p>#{filter.name}: #{filter.value}</p>
+                    </ui:repeat>
+                <h4>Filtre statique</h4>
+                <ul>
+                    <li class="select">
+                        <label>Nom et Prenom : </label>
+                        <h:selectOneMenu value = "#{resultatBean.candidat}">
+                            <f:selectItems  value="#{resultatBean.fullNameList}" var="c" itemValue="#{c[0]} #{c[1]}" itemLabel="#{c[0]} #{c[1]}">
+                            </f:selectItems> 
+                             <f:ajax render="@form" />      
+                        </h:selectOneMenu>
+                    </li>
+                </ul>
+
+
+                <h4>Recherche par adresse</h4>
+                <ul>
+                    <li class="select">
+                        <label for="adresse">Votre adresse: </label>
+                        <input type="text" id="adresse" name="adresse" placeholder="47 Rue President Macron"/>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="contenu">
+                <h2>#{resultatBean.candidat}</h2>
+                <div id="scrolltable">
+                    <h:dataTable value="#{resultatBean.resultList}"
+                                 var="resultList"
+                                 id="adresse_de_vote">                     
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_LIB')}">
+                                    <f:ajax render="@form"/>
+                                    Numero arrondissement
+                                </h:commandLink>
+                            </f:facet>
+                            #{resultList.numero_arrendissement}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ADR')}">
+                                    <f:ajax render="@form"/>
+                                    Numero de bureau
+                                </h:commandLink>
+                            </f:facet>
+                                #{resultList.numero_de_bureau_de_vote}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ADR')}">
+                                      <f:ajax render="@form"/>
+                                    nombre voix de vote
+                                </h:commandLink>
+                            </f:facet>
+                                #{resultList.nombre_de_voix_du_candidat}
+                        </h:column>
+
+                  
+
+                    </h:dataTable>
+                </div>
+            </section>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="h1">
+        Listes des bureaux de vote
+    </ui:define>
+
+</ui:composition>
