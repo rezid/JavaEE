@@ -1,12 +1,10 @@
 package fr.upec.m2.projects.JavaEE.view;
-
 import fr.upec.m2.projects.JavaEE.business.service.BureauService;
 import fr.upec.m2.projects.JavaEE.model.Bureau;
 import fr.upec.m2.projects.JavaEE.view.utils.Filter;
 import fr.upec.m2.projects.JavaEE.view.utils.FilterList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
