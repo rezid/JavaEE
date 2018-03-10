@@ -36,8 +36,74 @@
                     </li>
                 </ul>
             </section>
-
+           <h:link id="scorGlob"  fragment="scorGlob" />
             <section class="contenu">
+                <div id="scrolltable">
+                    <h:dataTable value="#{resultatBean.resultByArrondissement}"
+                                 var="resultListArrondissement"
+                                 id="resultListArr">                     
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_LIB')}">
+                                    <f:ajax render="@form"/>
+                                    Numero arrondissement
+                                </h:commandLink>
+                            </f:facet>
+                            #{resultListArrondissement[0]}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ADR')}">
+                                    <f:ajax render="@form"/>
+                                    Nom Candidat
+                                </h:commandLink>
+                            </f:facet>
+                                #{resultListArrondissement[1]}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ADR')}">
+                                      <f:ajax render="@form"/>
+                                    Prenom Candidat
+                                </h:commandLink>
+                            </f:facet>
+                                #{resultListArrondissement[2]}
+                        </h:column>
+
+                   <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ADR')}">
+                                      <f:ajax render="@form"/>
+                                    Nombre de voix
+                                </h:commandLink>
+                            </f:facet>
+                                #{resultListArrondissement[3]}
+                        </h:column>
+
+                    </h:dataTable>
+                </div>
+               
+               <div id="scorettile">
+                        <div class="copyright">
+                         <p>SCORE GLOBAL</p>
+                         </div>
+                        <div class="score">
+                         <a href="#" class="support">#{resultatBean.scoreGlobal}</a>
+                          
+                        </div>
+               </div>
+               <a  name="detail" href="score.xhtml#detail">VOIR DETAILS ....</a>                        
+            </section>
+           
+            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            <br/><br/><br/><br/><br/><br/>
+            <h:link id="detail"  fragment="detail" />
+            
+            <section class="contenu">             
+                
                 <h2>#{resultatBean.candidat}</h2>
                 <div id="scrolltable">
                     <h:dataTable value="#{resultatBean.resultList}"
@@ -72,13 +138,13 @@
                                 </h:commandLink>
                             </f:facet>
                                 #{resultList.nombre_de_voix_du_candidat}
-                        </h:column>
-
-                  
+                        </h:column>      
 
                     </h:dataTable>
                 </div>
+             <a name="scorGlob" href="score.xhtml#scorGlob"> RETOUR </a>
             </section>
+            
         </h:form>
     </ui:define>
 

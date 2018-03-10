@@ -234,3 +234,48 @@ header .logo {
     padding-bottom: 30px;
 }
 
+
+#scorettile {
+ 
+  width: 100%;
+  display: inline-block;
+  margin: 2em 0;
+  height: 70px;
+  background-color: #999;}
+
+  #scorettile .copyright {
+    width: 50%;
+    float: left;
+  }
+   #scorettile .copyright p {
+      padding-left: 10%;
+      color: white;
+      line-height: 70px;
+      text-transform: capitalize;
+      letter-spacing: 1px;
+      font-size: 1.7em;
+      font-family: sans-serif;
+      margin-top: 0%;
+    }
+    
+ #scorettile .score {
+      width: 50%;
+      float: right;
+  }
+ #scorettile .score a {
+      float: left;
+      line-height: 70px;
+      text-decoration: none;
+      color: white;
+      text-align: center;
+      font-weight: bold; 
+    }
+  
+
+#scorettile .score .support {
+
+  background-color: #6dcd9a;;
+  font-size: 1.2em;
+  width:100%;
+}
+

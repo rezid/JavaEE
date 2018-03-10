@@ -25,6 +25,13 @@ public class ResultService  implements Serializable {
                 .setParameter("prenomC",prenomCandidat )
                 .getResultList();
 }
+        public List<String[]> getAllResultByArrondissement(String nomCandidat, String prenomCandidat) {
+        return entityManager.createNamedQuery("Resultat_psd_1.getAllResultByArrondissement")
+                 .setParameter("nomC", nomCandidat)
+                .setParameter("prenomC",prenomCandidat )
+                .getResultList();
+}
+    
     
       public List<String[]> getListCandidat() {       
         return entityManager.createNamedQuery("Resultat_psd_1.getListCandidat")
