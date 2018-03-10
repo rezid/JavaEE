@@ -10,6 +10,7 @@ import fr.upec.m2.projects.JavaEE.business.service.ResultService;
 import fr.upec.m2.projects.JavaEE.model.Resultat_psd_1;
 import fr.upec.m2.projects.JavaEE.view.utils.FilterList;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -26,7 +27,9 @@ public class ResultatBean implements Serializable{
     private static final Logger LOG = LogManager.getLogger(ResultatBean.class);
     
     private List<Resultat_psd_1> resultList;
-
+    private boolean is_adr_asc = true;
+    private boolean is_label_asc = true;
+    private boolean is_cp_asc = true;
     private String candidat;
     private FilterList filterList;
     private List <String[]> fullNameList ;
@@ -34,7 +37,8 @@ public class ResultatBean implements Serializable{
     private List <String []> ResultByArrondissement ;
     private Integer scoreGlobal=0;
     private String[] s = new String[4];
-            
+
+    
     @Inject
     private ResultService resultService;
 
@@ -51,7 +55,21 @@ public class ResultatBean implements Serializable{
         }
           
     }
+    
+    public FilterList getFilterList() {
+        return filterList;
+    }
 
+    public void setFilterList(FilterList filterList) {
+        this.filterList = filterList;
+    }
+
+    public ResultatBean() {
+        filterList = new FilterList();
+    }
+        
+
+    
     public List<String[]> getResultByArrondissement() {
         return ResultByArrondissement;
     }
@@ -83,6 +101,66 @@ public class ResultatBean implements Serializable{
        
     }
 
+    public void sortByOrder(String order) {
+        LOG.info("sorting list by: {}", order);
+        if (resultList.isEmpty())
+            return;
+
+        switch (order) {
+            case "BY_NOM":
+                if (is_adr_asc) {
+                    resultList.sort(Comparator.comparing(Resultat_psd_1::getNom_du_candidat));
+                    filterList.addFilter("Order", "BY_NOM");
+                }
+                else {
+                    resultList.sort(Comparator.comparing(Resultat_psd_1::getNom_du_candidat).reversed());
+                    filterList.addFilter("Order", "BY_NOM");
+                }
+                is_adr_asc = !is_adr_asc;
+                break;
+
+            case "BY_ARR":
+                if (is_label_asc) {
+                    resultList.sort(Comparator.comparing(Resultat_psd_1::getNumero_arrendissement));
+                    filterList.addFilter("Order", "BY_ARR");
+                }
+                else {
+                    resultList.sort(Comparator.comparing(Resultat_psd_1::getNumero_arrendissement).reversed());
+                    filterList.addFilter("Order", "BY_ARR");
+                }
+                is_label_asc = !is_label_asc;
+                break;
+
+            case "BY_PRENOM":
+                if (is_cp_asc) {
+                    resultList.sort(Comparator.comparing(Resultat_psd_1::getPrenom_du_candidat));
+                    filterList.addFilter("Order", "BY_PRENOM");
+                }
+                else {
+                    resultList.sort(Comparator.comparing(Resultat_psd_1::getPrenom_du_candidat).reversed());
+                    filterList.addFilter("Order", "BY_PRENOM");
+                }
+                is_cp_asc = !is_cp_asc;
+                break;
+            
+            case "NBR_VOTE":
+                if (is_label_asc) {
+                    resultList.sort(Comparator.comparing(Resultat_psd_1::getNombre_de_voix_du_candidat));
+                    filterList.addFilter("Order", "NBR_VOTE");
+                }
+                else {
+                    resultList.sort(Comparator.comparing(Resultat_psd_1::getNombre_de_voix_du_candidat).reversed());
+                    filterList.addFilter("Order", "NBR_VOTE");
+                }
+                is_label_asc = !is_label_asc;
+                break;
+
+            default:
+                break;
+        }
+    }
+    
+    
     public String[] getNomPrenom() {
         return nomPrenom;
     }

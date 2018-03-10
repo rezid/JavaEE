@@ -12,7 +12,7 @@
         <h:form>
             <section class="filter">
                 <h4>#{bureauBean.listSize} enregistrement(s) trouvé(s)</h4>
-                    <ui:repeat value="#{bureauBean.filterList}" var="filter">
+                <ui:repeat value="#{bureauBean.filterList}" var="filter">
                         <p>#{filter.name}: #{filter.value}</p>
                     </ui:repeat>
                 <h4>Filtre statique</h4>
@@ -45,7 +45,7 @@
 
                         <h:column>
                             <f:facet name="header">
-                                <h:commandLink action="#{bureauBean.sortByOrder('BY_LIB')}">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ARR')}">
                                     <f:ajax render="@form"/>
                                     Numero arrondissement
                                 </h:commandLink>
@@ -55,7 +55,7 @@
 
                         <h:column>
                             <f:facet name="header">
-                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ADR')}">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_NOM')}">
                                     <f:ajax render="@form"/>
                                     Nom Candidat
                                 </h:commandLink>
@@ -65,7 +65,7 @@
 
                         <h:column>
                             <f:facet name="header">
-                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ADR')}">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_PRENOM')}">
                                       <f:ajax render="@form"/>
                                     Prenom Candidat
                                 </h:commandLink>
@@ -75,7 +75,7 @@
 
                    <h:column>
                             <f:facet name="header">
-                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ADR')}">
+                                <h:commandLink action="#{bureauBean.sortByOrder('NBR_VOTE')}">
                                       <f:ajax render="@form"/>
                                     Nombre de voix
                                 </h:commandLink>
@@ -92,7 +92,6 @@
                          </div>
                         <div class="score">
                          <a href="#" class="support">#{resultatBean.scoreGlobal}</a>
-                          
                         </div>
                </div>
                <a  name="detail" href="score.xhtml#detail">VOIR DETAILS ....</a>                        

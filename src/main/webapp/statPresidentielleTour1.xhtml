@@ -18,11 +18,12 @@
                 <h4>Filtre statique</h4>
                 <ul>
                     <li class="select">
-                        <label>Nom et Prenom : </label>
-                        <h:selectOneMenu value = "#{resultatBean.candidat}">
-                            <f:selectItems  value="#{resultatBean.fullNameList}" var="c" itemValue="#{c[0]} #{c[1]}" itemLabel="#{c[0]} #{c[1]}">
-                            </f:selectItems> 
-                             <f:ajax render="@form" />      
+                        <label>Arrondissement: </label>
+                        <h:selectOneMenu value = "#{statistiqueBean.statistique}">
+                            <f:selectItem itemValue = " Par ARRONDISSEMENT" itemLabel = "Par ARRONDISSEMENT" />
+                            <f:selectItem itemValue = "PAR BUREAUX" itemLabel = "PAR BUREAUX" />
+                            
+                            <f:ajax render="@form" />
                         </h:selectOneMenu>
                     </li>
                 </ul>
@@ -38,51 +39,46 @@
             </section>
 
             <section class="contenu">
-                <h2>#{resultatGlobalBean.candidat}</h2>
+                <h2>STATISTIQUE</h2>
                 <div id="scrolltable">
-                    <h:dataTable value="#{resultatGlobalBean.resultList}"
-                                 var="resultList"
-                                 >                     
-
-                         <h:column>
-                            <f:facet name="header">
-                                <h:commandLink action="#{resultatGlobalBean.sortByOrder('NOM_COND')}">
-                                    <f:ajax render="@form"/>
-                                    Nom du condidat
-                                </h:commandLink>
-                            </f:facet>
-                            #{resultList.nom_du_candidat} #{resultList.prenom_du_candidat}
-                        </h:column>
-              
+                    <h:dataTable value="#{statistiqueBean.resultStatistique}"
+                                 var="resultStat"
+                                 id="statTable">
                         <h:column>
                             <f:facet name="header">
-                                <h:commandLink action="#{resultatGlobalBean.sortByOrder('BY_ARR')}">
-                                    <f:ajax render="@form"/>
-                                    Numero arrondissement
-                                </h:commandLink>
+                                Numero Arrondissement
                             </f:facet>
-                            #{resultList.numero_arrendissement}
-                        </h:column>
-
-                                                
-                        <h:column>
-                            <f:facet name="header">
-                                <h:commandLink action="#{resultatGlobalBean.sortByOrder('BY_BRU')}">
-                                    <f:ajax render="@form"/>
-                                    Numero de bureau
-                                </h:commandLink>
-                            </f:facet>
-                                #{resultList.numero_de_bureau_de_vote}
+                            #{resultStat[0]}
                         </h:column>
 
                         <h:column>
                             <f:facet name="header">
-                                <h:commandLink action="#{resultatGlobalBean.sortByOrder('NBR_VOTE')}">
-                                      <f:ajax render="@form"/>
-                                    nombre voix de vote
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_LIB')}">
+                                    <f:ajax render="@form"/>
+                                    Nombre de Votants
                                 </h:commandLink>
                             </f:facet>
-                                #{resultList.nombre_de_voix_du_candidat}
+                            #{resultStat[1]}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ADR')}">
+                                    <f:ajax render="@form"/>
+                                    Nombre d'inscrits
+                                </h:commandLink>
+                            </f:facet>
+                                #{resultStat[2]}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_CP')}">
+                                    <f:ajax render="@form"/>
+                                    Nombre Exprimés
+                                </h:commandLink>
+                            </f:facet>
+                                #{resultStat[3]}
                         </h:column>
 
                     </h:dataTable>
@@ -92,7 +88,7 @@
     </ui:define>
 
     <ui:define name="h1">
-        Listes des bureaux de vote
+        Liste des Statistiques 
     </ui:define>
 
 </ui:composition>

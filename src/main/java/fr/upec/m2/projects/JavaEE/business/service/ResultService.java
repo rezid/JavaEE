@@ -37,5 +37,9 @@ public class ResultService  implements Serializable {
         return entityManager.createNamedQuery("Resultat_psd_1.getListCandidat")
                 .getResultList();        
 }
+      public List<String[]> getStatistiqueByArrondissement() {       
+        return entityManager.createNamedQuery("Resultat_psd_1.getStatistiqueByArrondissement")
+                .getResultList();        
+}
 
 }

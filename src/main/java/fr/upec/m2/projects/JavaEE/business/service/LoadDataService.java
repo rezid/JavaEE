@@ -82,6 +82,7 @@ public class LoadDataService {
                         record.get("numero_de_bureau_de_vote_000_a_999"),
                         record.get("code_commune_insee_751_01_a_20"),
                         record.get("nombre_de_votants_du_bureau_de_vote"),
+                        record.get("nombre_d_inscrits_du_bureau_de_vote"),
                         record.get("nombre_d_exprimes_du_bureau_de_vote"),
                         record.get("nom_du_candidat_ou_liste"),
                         record.get("prenom_du_candidat_ou_liste"),
