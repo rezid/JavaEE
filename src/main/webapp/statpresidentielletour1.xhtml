@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<ui:composition template="/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:define name="content">
+        <h:form>
+            <section class="filter">
+                <h4>#{statistiqueBean.getresultStatistiqueSize()} enregistrement(s) trouve(s)</h4>
+                <ui:repeat value="#{bureauBean.filterList}" var="filter">
+                        <p>#{filter.name}: #{filter.value}</p>
+                    </ui:repeat>
+                <h4>Filtre statique</h4>
+                <ul>
+                    <li class="select">
+                        <label>Filtrer : : </label>
+                        <h:selectOneMenu value = "#{statistiqueBean.statistique}">
+                           <f:selectItem itemValue = "arr" itemLabel = "par arrondissement" />
+                            <f:selectItem itemValue = "bur" itemLabel = "par bureaux" />
+                           
+                             <f:ajax render="@form" />      
+                        </h:selectOneMenu>
+                    </li>
+                </ul>
+
+
+                <h4>Recherche par adresse</h4>
+                <ul>
+                    <li class="select">
+                        <label for="adresse">Votre adresse: </label>
+                        <input type="text" id="adresse" name="adresse" placeholder="47 Rue President Macron"/>
+                    </li>
+                </ul>
+            </section>
+          
+            <section class="contenu">
+                <div id="scrolltable">
+                    <h:dataTable value="#{statistiqueBean.resultStatistique}"
+                                 var="resultStat"
+                                 id="resulStat">                     
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ARR')}">
+                                    <f:ajax render="@form"/>
+                                    Numero arrondissement
+                                </h:commandLink>
+                            </f:facet>
+                            #{resultStat[0]}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_NOM')}">
+                                    <f:ajax render="@form"/>
+                                    Nombre Votants
+                                </h:commandLink>
+                            </f:facet>
+                                #{resultStat[1]}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_PRENOM')}">
+                                      <f:ajax render="@form"/>
+                                    Nombre Inscrit
+                                </h:commandLink>
+                            </f:facet>
+                                #{resultStat[2]}
+                        </h:column>
+
+                   <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('NBR_VOTE')}">
+                                      <f:ajax render="@form"/>
+                                    Nombre d exprimes
+                                </h:commandLink>
+                            </f:facet>
+                                #{resultStat[3]}
+                        </h:column>
+                         <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('NBR_VOTE')}">
+                                      <f:ajax render="@form"/>
+                                    % Votants
+                                </h:commandLink>
+                            </f:facet>
+                              <h:outputText value="#{(resultStat[1]/resultStat[2])*100}">
+                                
+                                <f:convertNumber groupingUsed="true" minFractionDigits="2" />
+                                </h:outputText>
+                                %
+                        </h:column>
+                         <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('NBR_VOTE')}">
+                                      <f:ajax render="@form"/>
+                                    % Abstentions
+                                </h:commandLink>
+                            </f:facet>
+                             <h:outputText value="#{100-((resultStat[1]/resultStat[2])*100)}">
+                                
+                                <f:convertNumber groupingUsed="true" minFractionDigits="2" />
+                                </h:outputText>
+                             %
+                        </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bureauBean.sortByOrder('NBR_VOTE')}">
+                                      <f:ajax render="@form"/>
+                                    % Exprimes
+                                </h:commandLink>
+                            </f:facet>
+                             <h:outputText value="#{(resultStat[3]/resultStat[2])*100}">
+                                
+                                <f:convertNumber groupingUsed="true" minFractionDigits="2" />
+                                </h:outputText>
+                             %
+                        </h:column>
+                    </h:dataTable>
+                </div>
+                <div>          
+                </div>       
+              
+                                     
+            </section>
+            <div id="ff">
+            <div id="piechart" style="width: 850px; height: 500px;"></div>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['#{(statistiqueBean.resultStatistique[0])[0]}', #{(statistiqueBean.resultStatistique[0])[1]}],
+          ['#{(statistiqueBean.resultStatistique[1])[0]}', #{(statistiqueBean.resultStatistique[1])[1]}],
+          ['#{(statistiqueBean.resultStatistique[2])[0]}', #{(statistiqueBean.resultStatistique[2])[1]}],
+          ['#{(statistiqueBean.resultStatistique[3])[0]}', #{(statistiqueBean.resultStatistique[3])[1]}],
+          ['#{(statistiqueBean.resultStatistique[4])[0]}', #{(statistiqueBean.resultStatistique[4])[1]}],
+          ['#{(statistiqueBean.resultStatistique[5])[0]}', #{(statistiqueBean.resultStatistique[5])[1]}],
+          ['#{(statistiqueBean.resultStatistique[6])[0]}', #{(statistiqueBean.resultStatistique[6])[1]}],
+          ['#{(statistiqueBean.resultStatistique[7])[0]}', #{(statistiqueBean.resultStatistique[7])[1]}],
+          ['#{(statistiqueBean.resultStatistique[8])[0]}', #{(statistiqueBean.resultStatistique[8])[1]}]
+        
+        
+        ]);
+
+        var options = {
+          title: 'statistique de vote par arrondissement'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+        </div>
+           
+        </h:form>
+        
+    </ui:define>
+
+    <ui:define name="h1">
+        Les Statistiques des resultats presidentielles 1er Tour 
+    </ui:define>
+
+</ui:composition>
