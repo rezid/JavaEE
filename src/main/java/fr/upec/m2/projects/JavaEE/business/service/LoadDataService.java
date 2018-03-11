@@ -90,7 +90,7 @@ public class LoadDataService {
                 int i=0;
                 for (CSVRecord record : records) {
                     i++;
-                     Resultat_psd_1 resultat = new Resultat_psd_1(
+                    Resultat_psd_1 resultat = new Resultat_psd_1(
                         record.get("numero_d_arrondissement_01_a_20"),
                         record.get("numero_de_bureau_de_vote_000_a_999"),
                         record.get("code_commune_insee_751_01_a_20"),
