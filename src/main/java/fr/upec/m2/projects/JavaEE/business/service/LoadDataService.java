@@ -91,15 +91,16 @@ public class LoadDataService {
                 for (CSVRecord record : records) {
                     i++;
                     Resultat_psd_1 resultat = new Resultat_psd_1(
-                            record.get("numero_d_arrondissement_01_a_20"),
-                            record.get("numero_de_bureau_de_vote_000_a_999"),
-                            record.get("code_commune_insee_751_01_a_20"),
-                            record.get("nombre_de_votants_du_bureau_de_vote"),
-                            record.get("nombre_d_exprimes_du_bureau_de_vote"),
-                            record.get("nom_du_candidat_ou_liste"),
-                            record.get("prenom_du_candidat_ou_liste"),
-                            record.get("nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote")
-                    );
+                        record.get("numero_d_arrondissement_01_a_20"),
+                        record.get("numero_de_bureau_de_vote_000_a_999"),
+                        record.get("code_commune_insee_751_01_a_20"),
+                        record.get("nombre_de_votants_du_bureau_de_vote"),
+                        record.get("nombre_d_inscrits_du_bureau_de_vote"),
+                        record.get("nombre_d_exprimes_du_bureau_de_vote"),
+                        record.get("nom_du_candidat_ou_liste"),
+                        record.get("prenom_du_candidat_ou_liste"),
+                        record.get("nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote")
+                );
                     entityManager.persist(resultat);
     
                     //LOG.error(resultat.getNom_du_candidat() + " " + resultat.getPrenom_du_candidat());
