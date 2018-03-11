@@ -63,6 +63,14 @@ public class StatistiqueBean  implements Serializable{
 
     public void setStatistique(String statistique) {
         this.statistique = statistique;
+        if(statistique.equalsIgnoreCase("arr")){
+           resultStatistique=statistiqueService.getStatistiqueByArrondissement();
+        }
+        else{
+            resultStatistique=statistiqueService.getStatistiqueByBureaux();
+        }
+        
+        
     }
     
     

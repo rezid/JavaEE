@@ -23,4 +23,8 @@ public class StatistiqueService  implements Serializable {
                 .getResultList();        
 }
 
+        public List<String[]> getStatistiqueByBureaux() {       
+        return entityManager.createNamedQuery("Resultat_psd_1.getStatistiqueByBureaux")
+                .getResultList();        
+}
 }
