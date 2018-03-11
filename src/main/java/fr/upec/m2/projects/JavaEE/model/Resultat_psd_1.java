@@ -26,7 +26,11 @@ import java.io.Serializable;
         ),
       @NamedQuery(
                 name="Resultat_psd_1.getStatistiqueByArrondissement",
-                query = "SELECT _result.numero_arrendissement,SUM(_result.nombre_de_votants),SUM(_result.nombre_inscrits),SUM(_result.nombre_inscrits) FROM Resultat_psd_1 _result GROUP BY _result.numero_arrendissement "
+                query = "SELECT _result.numero_arrendissement,SUM(_result.nombre_de_votants)as nombre_votans,SUM(_result.nombre_inscrits)as nombres_inscrits,SUM(_result.nombre_d_exprimes) as nombre_exprimé FROM Resultat_psd_1 _result GROUP BY _result.numero_arrendissement"
+        ),    
+      @NamedQuery(
+                name="Resultat_psd_1.getStatistiqueByBureaux",
+                query = "SELECT _result.numero_de_bureau_de_vote ,SUM(_result.nombre_de_votants)as nombre_votans,SUM(_result.nombre_inscrits)as nombres_inscrits,SUM(_result.nombre_d_exprimes) as nombre_exprimé FROM Resultat_psd_1 _result GROUP BY _result.numero_de_bureau_de_vote"
         ),    
 })
 public class Resultat_psd_1 implements Serializable {
