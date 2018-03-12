@@ -5,6 +5,7 @@
  */
 
 package fr.upec.m2.projects.JavaEE.view;
+import fr.upec.m2.projects.JavaEE.business.service.ResultService;
 import fr.upec.m2.projects.JavaEE.business.service.ResultatGlobalService;
 import fr.upec.m2.projects.JavaEE.business.service.StatistiqueService;
 import fr.upec.m2.projects.JavaEE.model.Resultat_psd_1;
@@ -36,7 +37,7 @@ public class StatistiqueBean  implements Serializable{
     
     private static final Logger LOG = LogManager.getLogger(ResultatGlobalBean.class);
     
-    
+    private List<Resultat_psd_1> resultList;
     private FilterList filterList;
     private List <String[]> resultStatistique ;
     private String[] nomPrenom;
@@ -44,17 +45,22 @@ public class StatistiqueBean  implements Serializable{
     private boolean is_label_asc = true;
     private boolean is_cp_asc = true;
     private String statistique;
+     private List <String[]> fullNameList ;
     public StatistiqueBean() {
      filterList = new FilterList();
+   
     }
     
     @Inject
     private StatistiqueService statistiqueService;
-
+    
+   @Inject
+    private ResultService resultService;
      @PostConstruct
     public void init() {
         resultStatistique= statistiqueService.getStatistiqueByArrondissement();
-       // fullNameList=resultService.getListCandidat();   
+        statistique="arr";
+       
     }
 
     public String getStatistique() {
@@ -66,12 +72,25 @@ public class StatistiqueBean  implements Serializable{
         if(statistique.equalsIgnoreCase("arr")){
            resultStatistique=statistiqueService.getStatistiqueByArrondissement();
         }
-        else{
+        else if(statistique.equalsIgnoreCase("bur")){
+            
             resultStatistique=statistiqueService.getStatistiqueByBureaux();
+           }
+        else{
+            fullNameList=resultService.getListCandidat();
         }
         
         
     }
+
+    public List<String[]> getFullNameList() {
+        return fullNameList;
+    }
+
+    public void setFullNameList(List<String[]> fullNameList) {
+        this.fullNameList = fullNameList;
+    }
+
     
     
     public List<String[]> getResultStatistique() {

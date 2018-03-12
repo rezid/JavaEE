@@ -13,7 +13,7 @@ import java.io.Serializable;
                         + "FROM Resultat_psd_1 _result where _result.nom_du_candidat = :nomC AND _result.prenom_du_candidat = :prenomC GROUP BY _result.numero_arrendissement,_result.nom_du_candidat,_result.prenom_du_candidat"),
      @NamedQuery(
                 name = "Resultat_psd_1.getListCandidat",
-                query = "SELECT DISTINCT _result.nom_du_candidat, _result.prenom_du_candidat FROM Resultat_psd_1 _result"),
+                query = "SELECT _result.nom_du_candidat,_result.prenom_du_candidat,SUM(_result.nombre_de_voix_du_candidat),SUM(_result.nombre_de_votants) FROM Resultat_psd_1 _result GROUP BY _result.nom_du_candidat,_result.prenom_du_candidat " ),
    
         @NamedQuery(
                 name = "Resultat_psd_1.getResultByName",

@@ -7,10 +7,7 @@ import javax.persistence.PersistenceContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- *
- * @author ramzi
- */
+
 public class ResultService  implements Serializable {
     private static final long serialVersionUID = 1L;
     
