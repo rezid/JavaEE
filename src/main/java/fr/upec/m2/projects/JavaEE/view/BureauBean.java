@@ -1,6 +1,8 @@
 package fr.upec.m2.projects.JavaEE.view;
 
+import fr.upec.m2.projects.JavaEE.business.service.AdresseService;
 import fr.upec.m2.projects.JavaEE.business.service.BureauService;
+import fr.upec.m2.projects.JavaEE.model.Adresse;
 import fr.upec.m2.projects.JavaEE.model.Bureau;
 import fr.upec.m2.projects.JavaEE.view.utils.Filter;
 import fr.upec.m2.projects.JavaEE.view.utils.FilterList;
@@ -12,6 +14,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -24,7 +27,18 @@ public class BureauBean implements Serializable {
 
     private static final Logger LOG = LogManager.getLogger(BureauBean.class);
 
+    private String adresse;
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
     private List<Bureau> bureauList;
+
     private boolean is_adr_asc = true;
     private boolean is_label_asc = true;
     private boolean is_cp_asc = true;

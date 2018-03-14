@@ -21,7 +21,7 @@ public class Bureau implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(length = 10, unique = true, nullable = false)
+    @Column(length = 10, nullable = false)
     private @NotNull String objectID; // id dans le site de paris
 
     @Column(length = 10, nullable = false)
@@ -48,8 +48,8 @@ public class Bureau implements Serializable {
         Adresse_bureau = adresse_bureau;
         this.code_postal_bureau = code_postal_bureau;
     }
-// getters ans setters
 
+    // Getters ans Setters
 
     public Long getId() {
         return id;

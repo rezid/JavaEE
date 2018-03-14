@@ -1,7 +1,6 @@
 package fr.upec.m2.projects.JavaEE.business.service;
 
-import fr.upec.m2.projects.JavaEE.model.Bureau;
-import fr.upec.m2.projects.JavaEE.model.Resultat_psd_1;
+import fr.upec.m2.projects.JavaEE.model.*;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
@@ -14,6 +13,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.io.*;
 import java.net.URLDecoder;
 
@@ -30,7 +30,6 @@ public class LoadDataService {
     @PostConstruct
     public void init() {
         String path = Thread.currentThread().getContextClassLoader().getResource("data/bureaux.csv").getPath();
-
         try {
             path = URLDecoder.decode(path, "UTF-8");
             Reader in = new FileReader(path);
@@ -38,6 +37,7 @@ public class LoadDataService {
                     .withHeader("objectid","num_bv","lib","adresse","cp","id_bv","geo_shape","geo_point_2d")
                     .parse(in);
 
+            int i = 0;
             for (CSVRecord record : records) {
                 Bureau bureau = new Bureau(
                         record.get("objectid"),
@@ -47,6 +47,9 @@ public class LoadDataService {
                         record.get("cp")
                 );
                 entityManager.persist(bureau);
+                if (i == 100)
+                    break;
+                i++;
             }
             LOG.info("Loading in DB is done: bureaux.csv");
         } catch (UnsupportedEncodingException e) {
@@ -55,10 +58,7 @@ public class LoadDataService {
             LOG.error("cant read csv file: {}", e.getMessage());
         }
 
-
-
         path = Thread.currentThread().getContextClassLoader().getResource("data/resultat_psd_2017_1er.csv").getPath();
-
         try {
             path = URLDecoder.decode(path, "UTF-8");
             Reader in = new FileReader(path);
@@ -72,6 +72,7 @@ public class LoadDataService {
                             "nombre_de_blancs_uniquement_du_bureau_de_vote", "nombre_de_procurations_du_bureau_de_vote")
                     .parse(in);
 
+            int i = 0;
             for (CSVRecord record : records) {
                 Resultat_psd_1 resultat = new Resultat_psd_1(
                         record.get("numero_d_arrondissement_01_a_20"),
@@ -85,13 +86,88 @@ public class LoadDataService {
                 );
                 entityManager.persist(resultat);
 
-                LOG.error(resultat.getNom_du_candidat() + " " + resultat.getPrenom_du_candidat());
+                if (i == 100)
+                    break;
+                i++;
             }
-            LOG.info("Loading in DB is done: bureaux.csv");
+            LOG.info("Loading in DB is done: resultat_psd_2017_1er.csv");
         } catch (UnsupportedEncodingException e) {
             LOG.error("cant convert path to csv file: {}", e.getMessage());
         } catch (IOException e) {
             LOG.error("cant read csv file: {}", e.getMessage());
+        }
+
+        path = Thread.currentThread().getContextClassLoader().getResource("data/adresse_paris.csv").getPath();
+        try {
+            path = URLDecoder.decode(path, "UTF-8");
+            Reader in = new FileReader(path);
+            Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(';')
+                    .withHeader("Geometry X Y", "Geometry", "N_SQ_AD", "N_VOIE", "C_SUF1", "C_SUF2", "C_SUF3", "C_AR", "A_NVOIE", "B_ANGLE",
+                            "B_OFFSTDF", "B_AFFSTDF", "B_HORS75", "L_NVOIE", "L_ADR", "N_SQ_AR", "N_SQ_VO", "OBJECTID")
+                    .parse(in);
+
+            int i = 0;
+            for (CSVRecord record : records) {
+                Adresse adresse = new Adresse(
+                        record.get("N_VOIE"),
+                        record.get("L_ADR"),
+                        record.get("C_AR"),
+                        new Point2D(
+                                record.get("Geometry X Y").split(", ")[0],
+                                record.get("Geometry X Y").split(", ")[1]
+                        )
+                );
+                entityManager.persist(adresse);
+                if (i == 1000)
+                    break;
+                i++;
+            }
+            LOG.info("Loading in DB is done: adresse_paris.csv");
+        } catch (UnsupportedEncodingException e) {
+            LOG.error("cant convert path to csv file: {}", e.getMessage());
+        } catch (IOException e) {
+            LOG.error("cant read csv file: {}", e.getMessage());
+        }
+
+        path = Thread.currentThread().getContextClassLoader()
+                .getResource("data/zones_de_rattachement.csv")
+                .getPath();
+        try {
+            path = URLDecoder.decode(path, "UTF-8");
+            Reader in = new FileReader(path);
+            Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(';')
+                    .withHeader("Geo Point", "Geo Shape", "ARRONDISSE", "NUM_BV", "SHAPE_Leng", "SHAPE_Area")
+                    .parse(in);
+
+            int i = 0;
+            for (CSVRecord record : records) {
+
+                Polygon polygon = new Polygon();
+
+                String pointList = record.get("Geo Shape").split(": ")[2];
+                pointList = pointList.substring(3, pointList.length() - 4);
+
+                for (String point: pointList.split("\\], \\[")) {
+                    Point2D point2D = new Point2D();
+                    point2D.setCoordinates_longitude(point.split(" ")[0]);
+                    point2D.setCoordinates_latitude(point.split(" ")[1]);
+                    polygon.addPoint(point2D);
+                }
+
+                Zone zone = new Zone(
+                        polygon,
+                        record.get("ARRONDISSE") + "-" + record.get("NUM_BV")
+                );
+                entityManager.persist(zone);
+                if (i == 100)
+                    break;
+                i++;
+            }
+            LOG.info("Loading in DB is done: zone_de_rattachement.csv");
+        } catch (UnsupportedEncodingException e) {
+            LOG.error("can't convert path to csv file: {}", e.getMessage());
+        } catch (IOException e) {
+            LOG.error("can't read csv file: {}", e.getMessage());
         }
     }
 }

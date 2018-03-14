@@ -5,6 +5,7 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
 >
@@ -32,12 +33,34 @@
                     </li>
                 </ul>
 
-
                 <h4>Recherche par adresse</h4>
                 <ul>
-                    <li class="select">
+                    <li class="select" id="adresse1">
+                        <label>Votre adresse: </label>
+
+                        <h:inputText p:list="adresse" p:id="input1" p:autocomplete="off"  value="#{bureauBean.adresse}">
+                            <f:ajax event="keyup" render=":adresse"/>
+                        </h:inputText>
+
+                        <datalist id="adresse">
+                            <ui:repeat value="#{adresseBean.adresseList}" var="adresse1">
+                                <option >#{adresse1.adresse.concat(', ').concat(adresse1.code_postale)}</option>
+                            </ui:repeat>
+                        </datalist>
+
+                        <form autocomplete="off" action="/action_page.php">
+                            <div class="autocomplete" style="width:300px;">
+                                <input id="myInput" type="text" name="myCountry" placeholder="Country"/>
+                            </div>
+                            <input type="submit"/>
+                        </form>
+
+                        <h:outputScript library="js" name="autocomplete.js" />
+
+                        <!--
                         <label for="adresse">Votre adresse: </label>
                         <input type="text" id="adresse" name="adresse" placeholder="47 Rue President Macron"/>
+                        -->
                     </li>
                 </ul>
             </section>
