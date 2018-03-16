@@ -5,11 +5,13 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
 >
     <ui:define name="content">
+        <!-- onkeypress="return event.keyCode !== 13" -->
         <h:form>
             <section class="filter">
                 <h4>#{bureauBean.listSize} enregistrement(s) trouvé(s)</h4>
@@ -21,13 +23,17 @@
                     <li class="select">
                         <label>Arrondissement: </label>
                         <h:selectOneMenu value = "#{bureauBean.codePostale}">
-                            <f:selectItem itemValue = "75000" itemLabel = "Tous" />
-                            <f:selectItem itemValue = "75001" itemLabel = "1" />
-                            <f:selectItem itemValue = "75002" itemLabel = "2" />
-                            <f:selectItem itemValue = "75003" itemLabel = "3" />
-                            <f:selectItem itemValue = "75004" itemLabel = "4" />
-                            <f:selectItem itemValue = "75005" itemLabel = "5" />
-                            <f:selectItem itemValue = "75006" itemLabel = "6" />
+                            <f:selectItem itemValue = "75000" itemLabel = "Tous" /> <f:selectItem itemValue = "75001" itemLabel = "1" />
+                            <f:selectItem itemValue = "75002" itemLabel = "2" /> <f:selectItem itemValue = "75003" itemLabel = "3" />
+                            <f:selectItem itemValue = "75004" itemLabel = "4" /> <f:selectItem itemValue = "75005" itemLabel = "5" />
+                            <f:selectItem itemValue = "75006" itemLabel = "6" /> <f:selectItem itemValue = "75007" itemLabel = "7" />
+                            <f:selectItem itemValue = "75008" itemLabel = "8" /> <f:selectItem itemValue = "75009" itemLabel = "9" />
+                            <f:selectItem itemValue = "75010" itemLabel = "10" /> <f:selectItem itemValue = "75011" itemLabel = "11" />
+                            <f:selectItem itemValue = "75012" itemLabel = "12" /> <f:selectItem itemValue = "75013" itemLabel = "13" />
+                            <f:selectItem itemValue = "75014" itemLabel = "14" /> <f:selectItem itemValue = "75015" itemLabel = "15" />
+                            <f:selectItem itemValue = "75016" itemLabel = "16" /> <f:selectItem itemValue = "75017" itemLabel = "17" />
+                            <f:selectItem itemValue = "75018" itemLabel = "18" /> <f:selectItem itemValue = "75019" itemLabel = "19" />
+                            <f:selectItem itemValue = "75020" itemLabel = "20" />
                             <f:ajax render="@form" />
                         </h:selectOneMenu>
                     </li>
@@ -37,30 +43,18 @@
                 <ul>
                     <li class="select" id="adresse1">
                         <label>Votre adresse: </label>
+                        <p:autoComplete value="#{bureauBean.selectedAddress}" completeMethod="#{adresseBean.complete}"
+                                        maxResults="5"
+                                        placeholder="Tapez votre adresse ici." style="width:380px;">
+                        </p:autoComplete>
 
-                        <h:inputText p:list="adresse" p:id="input1" p:autocomplete="off"  value="#{bureauBean.adresse}">
-                            <f:ajax event="keyup" render=":adresse"/>
-                        </h:inputText>
+                        <p:commandButton id="searchButton" actionListener="#{bureauBean.searchBureau}"
+                                         icon="ui-icon-search" update="@form"/>
 
-                        <datalist id="adresse">
-                            <ui:repeat value="#{adresseBean.adresseList}" var="adresse1">
-                                <option >#{adresse1.adresse.concat(', ').concat(adresse1.code_postale)}</option>
-                            </ui:repeat>
-                        </datalist>
+                        <p:commandButton id="clearSearchButton" actionListener="#{bureauBean.cancelSearchBureau}"
+                                         icon="ui-icon-cancel" update="@form"/>
 
-                        <form autocomplete="off" action="/action_page.php">
-                            <div class="autocomplete" style="width:300px;">
-                                <input id="myInput" type="text" name="myCountry" placeholder="Country"/>
-                            </div>
-                            <input type="submit"/>
-                        </form>
 
-                        <h:outputScript library="js" name="autocomplete.js" />
-
-                        <!--
-                        <label for="adresse">Votre adresse: </label>
-                        <input type="text" id="adresse" name="adresse" placeholder="47 Rue President Macron"/>
-                        -->
                     </li>
                 </ul>
             </section>

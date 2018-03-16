@@ -27,4 +27,10 @@ public class BureauService implements Serializable {
                 .setParameter("code_postale", code_postale)
                 .getResultList();
     }
+
+    public List<Bureau> getBurreauByNum(String numero_bureau) {
+        return entityManager.createNamedQuery("Bureau.getBurreauByNum")
+                .setParameter("num", numero_bureau)
+                .getResultList();
+    }
 }

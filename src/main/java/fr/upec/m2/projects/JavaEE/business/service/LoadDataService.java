@@ -27,6 +27,8 @@ public class LoadDataService {
     @PersistenceContext
     private EntityManager entityManager;
 
+    private static final int PRECISION = 10;
+
     @PostConstruct
     public void init() {
         String path = Thread.currentThread().getContextClassLoader().getResource("data/bureaux.csv").getPath();
@@ -47,11 +49,14 @@ public class LoadDataService {
                         record.get("cp")
                 );
                 entityManager.persist(bureau);
-                if (i == 100)
+                if (i % PRECISION == 0)
+                    LOG.info("Loading bureaux.csv: {}%", i / 9);
+
+                if (i == 1000) // Max = 896
                     break;
                 i++;
             }
-            LOG.info("Loading in DB is done: bureaux.csv");
+            LOG.info("Loading bureaux.csv: Done");
         } catch (UnsupportedEncodingException e) {
             LOG.error("cant convert path to csv file: {}", e.getMessage());
         } catch (IOException e) {
@@ -86,11 +91,14 @@ public class LoadDataService {
                 );
                 entityManager.persist(resultat);
 
-                if (i == 100)
+                if (i % PRECISION == 0)
+                    LOG.info("Loading resultat_psd_2017_1er.csv: {}%", i / 100);
+
+                if (i == 100) // max = 10045
                     break;
                 i++;
             }
-            LOG.info("Loading in DB is done: resultat_psd_2017_1er.csv");
+            LOG.info("Loading resultat_psd_2017_1er.csv: Done");
         } catch (UnsupportedEncodingException e) {
             LOG.error("cant convert path to csv file: {}", e.getMessage());
         } catch (IOException e) {
@@ -108,21 +116,35 @@ public class LoadDataService {
 
             int i = 0;
             for (CSVRecord record : records) {
+                String c = record.get("Geometry");
+                c = c.split("\"coordinates\": \\[")[1];
+                c = c.substring(0, c.length() - 2);
+
                 Adresse adresse = new Adresse(
                         record.get("N_VOIE"),
                         record.get("L_ADR"),
                         record.get("C_AR"),
+
                         new Point2D(
-                                record.get("Geometry X Y").split(", ")[0],
-                                record.get("Geometry X Y").split(", ")[1]
+                                c.split(", ")[1],
+                                c.split(", ")[0]
                         )
                 );
                 entityManager.persist(adresse);
-                if (i == 1000)
+
+                if (LOG.isErrorEnabled() && i % PRECISION == 0) {
+                    String p = String.valueOf(i / 1465.62);
+                    if (p.length() > 5)
+                        LOG.info("Loading adresse_paris.csv: {}%", p.substring(0, 5));
+                    else
+                        LOG.info("Loading adresse_paris.csv: {}%", p);
+                }
+
+                if (i == 1000) // max = 146562
                     break;
                 i++;
             }
-            LOG.info("Loading in DB is done: adresse_paris.csv");
+            LOG.info("Loading adresse_paris.csv: Done");
         } catch (UnsupportedEncodingException e) {
             LOG.error("cant convert path to csv file: {}", e.getMessage());
         } catch (IOException e) {
@@ -149,7 +171,10 @@ public class LoadDataService {
 
                 for (String point: pointList.split("\\], \\[")) {
                     Point2D point2D = new Point2D();
-                    point2D.setCoordinates_longitude(point.split(" ")[0]);
+
+                    String lon = point.split(" ")[0];
+                    lon = lon.substring(0, lon.length() - 1);
+                    point2D.setCoordinates_longitude(lon);
                     point2D.setCoordinates_latitude(point.split(" ")[1]);
                     polygon.addPoint(point2D);
                 }
@@ -159,11 +184,16 @@ public class LoadDataService {
                         record.get("ARRONDISSE") + "-" + record.get("NUM_BV")
                 );
                 entityManager.persist(zone);
-                if (i == 100)
+
+                if (i % PRECISION == 0)
+                    LOG.info("Loading zone_de_rattachement.csv: {}%", (i / 9));
+
+
+                if (i == 10000) // max = 869
                     break;
                 i++;
             }
-            LOG.info("Loading in DB is done: zone_de_rattachement.csv");
+            LOG.info("Loading zone_de_rattachement.csv: Done");
         } catch (UnsupportedEncodingException e) {
             LOG.error("can't convert path to csv file: {}", e.getMessage());
         } catch (IOException e) {

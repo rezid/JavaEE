@@ -12,6 +12,9 @@ import java.io.Serializable;
         @NamedQuery(
                 name = "Bureau.getBurreauByArrondissement",
                 query = "SELECT _bureau FROM Bureau _bureau WHERE _bureau.code_postal_bureau = :code_postale"),
+        @NamedQuery(
+                name = "Bureau.getBurreauByNum",
+                query = "SELECT _bureau FROM Bureau _bureau WHERE _bureau.numero_bureau = :num"),
 })
 public class Bureau implements Serializable {
 

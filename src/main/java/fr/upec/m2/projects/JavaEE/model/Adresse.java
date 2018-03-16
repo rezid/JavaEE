@@ -14,6 +14,10 @@ import java.io.Serializable;
         @NamedQuery(
                 name = "Adresse.getAllAdresse",
                 query = "SELECT _adresse FROM Adresse _adresse"),
+        @NamedQuery(
+                name = "Adresse.getAllCoordinatesByAdresse",
+                query = "SELECT _adresse.coordinates FROM Adresse _adresse " +
+                        "WHERE _adresse.adresse = :adresse AND _adresse.code_postale = :cp"),
 })
 public class Adresse implements Serializable {
 
@@ -76,7 +80,7 @@ public class Adresse implements Serializable {
         try {
             i = Integer.parseInt(code_postale) + 75000;
         } catch (NumberFormatException e) {
-            return ""; // Adresse pas defini dans le site de paris
+            return "75000"; // Adresse pas defini dans le site de paris
         }
         return Integer.toString(i);
     }
@@ -92,4 +96,5 @@ public class Adresse implements Serializable {
     public void setCoordinates(Point2D coordinates) {
         this.coordinates = coordinates;
     }
+
 }

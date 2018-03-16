@@ -21,7 +21,6 @@ public class AdresseBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LogManager.getLogger(AdresseBean.class);
 
-
     private List<Adresse> adresseList;
 
     @Inject
@@ -34,15 +33,9 @@ public class AdresseBean implements Serializable {
     @PostConstruct
     public void init() {
         adresseList = adresseService.getAllAdresse();
-
-        LOG.error("size: {}", adresseList.size());
-
     }
 
-
-
     public List<Adresse> getAdresseList() {
-        LOG.error("2: {}", adresseList.size());
         return adresseList;
     }
 
@@ -50,26 +43,22 @@ public class AdresseBean implements Serializable {
         this.adresseList = adresseList;
     }
 
+    public List<String> complete(String word) {
+        List<String> list = new ArrayList<>();
 
-    /*
-    public List<Adresse> search(String word) {
-        LOG.error("search for: {}", word);
-        List<Adresse> list = new ArrayList<>();
         int i = 0;
         for (Adresse adresse : adresseList) {
-            if (adresse.getAdresse().toLowerCase().startsWith(word.toLowerCase())) {
-                list.add(adresse);
-                LOG.error("instance: {}", adresse.getAdresse());
+            String temp = adresse.getAdresse() + " -- " + adresse.getCode_postale();
+            if (temp.toLowerCase().contains(word.toLowerCase())) {
+                list.add(temp);
                 i++;
             }
-            if (i == 6) {
-                break;
-            }
-        }
 
-        LOG.error("END");
+            if (i == 7)
+                break;
+        }
         return list;
     }
-    */
+
 
 }

@@ -166,7 +166,7 @@ public final class PropertiesUtils {
                 properties.load(in);
             }
 
-            LOG.info(String.format("Loaded {} settings from {}.", properties.size(), locationDescription));
+
 
             for (Entry<?, ?> entry : properties.entrySet()) {
                 settings.put((String) entry.getKey(), (String) entry.getValue());

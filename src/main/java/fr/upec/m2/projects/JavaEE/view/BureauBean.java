@@ -1,15 +1,18 @@
 package fr.upec.m2.projects.JavaEE.view;
 
+import com.snatik.polygon.Point;
 import fr.upec.m2.projects.JavaEE.business.service.AdresseService;
 import fr.upec.m2.projects.JavaEE.business.service.BureauService;
-import fr.upec.m2.projects.JavaEE.model.Adresse;
-import fr.upec.m2.projects.JavaEE.model.Bureau;
+import fr.upec.m2.projects.JavaEE.business.service.ZoneService;
+import fr.upec.m2.projects.JavaEE.model.*;
 import fr.upec.m2.projects.JavaEE.view.utils.Filter;
 import fr.upec.m2.projects.JavaEE.view.utils.FilterList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.primefaces.model.map.LatLng;
 
 import javax.annotation.PostConstruct;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,14 +30,14 @@ public class BureauBean implements Serializable {
 
     private static final Logger LOG = LogManager.getLogger(BureauBean.class);
 
-    private String adresse;
+    private String selectedAddress;
 
-    public String getAdresse() {
-        return adresse;
+    public String getSelectedAddress() {
+        return selectedAddress;
     }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
+    public void setSelectedAddress(String selectedAddress) {
+        this.selectedAddress = selectedAddress;
     }
 
     private List<Bureau> bureauList;
@@ -48,6 +51,12 @@ public class BureauBean implements Serializable {
 
     @Inject
     private BureauService bureauService;
+
+    @Inject
+    private AdresseService adresseService;
+
+    @Inject
+    private ZoneService zoneService;
 
     // Default c'tor for CDI.
     public BureauBean() {
@@ -74,7 +83,9 @@ public class BureauBean implements Serializable {
 
     // 0 = Tout les Arrondissement
     public void setCodePostale(String code_postale) {
-        LOG.info("set code_postale to: {}", code_postale);
+        this.selectedAddress = "";
+        filterList.addFilter("Mon_adresse", selectedAddress);
+
         this.code_postale = code_postale;
         filterList.addFilter("Code_postale", code_postale);
 
@@ -92,7 +103,6 @@ public class BureauBean implements Serializable {
     }
 
     public void sortByOrder(String order) {
-        LOG.info("sorting list by: {}", order);
         if (bureauList.isEmpty())
             return;
 
@@ -136,5 +146,65 @@ public class BureauBean implements Serializable {
             default:
                 break;
         }
+    }
+
+    public void searchBureau() {
+        LOG.error("Finding bureau for adresse: {}", selectedAddress);
+
+        this.code_postale = "75000";
+        filterList.addFilter("Code_postale", code_postale);
+
+        filterList.addFilter("Mon_adresse", selectedAddress);
+
+
+
+        String[] list = selectedAddress.split(" -- ");
+
+        if (list.length >= 2 && list[1].length() == 5) {
+            String cp = list[1];
+            cp = cp.substring(3, cp.length());
+            List<Point2D> points = adresseService.getAllcoordinatesByAdresse(list[0], cp);
+
+            if (points.size() == 0) {
+                // no result ==> empty list
+                bureauList = new ArrayList<>();
+                return;
+            }
+
+            double lat = Double.valueOf(points.get(0).getCoordinates_latitude());
+            double lon = Double.valueOf(points.get(0).getCoordinates_longitude());
+            Point point = new Point(lat, lon);
+
+
+            List<Zone> zoneList = zoneService.getAllZone();
+            for (Zone zone : zoneList) {
+
+                Polygon polygon = zone.getPolygon();
+                com.snatik.polygon.Polygon.Builder builder = new com.snatik.polygon.Polygon.Builder();
+
+                polygon.getPoint2DList().forEach(p -> {
+                    double lat1 = Double.valueOf(p.getCoordinates_latitude());
+                    double lon1 = Double.valueOf(p.getCoordinates_longitude());
+                    Point point1 = new Point(lat1, lon1);
+                    // LOG.error("Point latitude: {}, Point longitude: {}", point1.x, point1.y);
+                    builder.addVertex(point1);
+                });
+
+
+                com.snatik.polygon.Polygon poly = builder.build();
+
+                if (poly.contains(point)) {
+                    LOG.error("zone found: {}", zone.getNumero_bureau());
+                    bureauList = bureauService.getBurreauByNum(zone.getNumero_bureau());
+                    return;
+                }
+            }
+        }
+        // no result ==> empty list
+        bureauList = new ArrayList<>();
+    }
+
+    public void cancelSearchBureau() {
+        setCodePostale("75000");
     }
 }

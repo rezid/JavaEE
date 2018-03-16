@@ -5,6 +5,11 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "Zone.getAllZone",
+                query = "SELECT _zone FROM Zone _zone"),
+ })
 public class Zone implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -14,10 +19,10 @@ public class Zone implements Serializable {
     private Long id;
 
     @JoinColumn(nullable=false)
-    @OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     private Polygon polygon;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private @NotNull String numero_bureau;
 
     public Zone() {
