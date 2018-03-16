@@ -9,10 +9,7 @@ import fr.upec.m2.projects.JavaEE.view.utils.Filter;
 import fr.upec.m2.projects.JavaEE.view.utils.FilterList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.primefaces.model.map.LatLng;
-
 import javax.annotation.PostConstruct;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -20,7 +17,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
 
 @ViewScoped
 @Named

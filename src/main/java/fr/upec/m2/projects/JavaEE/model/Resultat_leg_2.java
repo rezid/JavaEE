@@ -6,34 +6,8 @@ import java.io.Serializable;
 
 @Entity
 
-@NamedQueries({
-      @NamedQuery(
-                name = "Resultat_psd_1.getAllResultByArrondissement",
-                query = "SELECT _result.numero_arrendissement,_result.nom_du_candidat,_result.prenom_du_candidat,SUM(_result.nombre_de_voix_du_candidat)"
-                        + "FROM Resultat_psd_1 _result where _result.nom_du_candidat = :nomC AND _result.prenom_du_candidat = :prenomC GROUP BY _result.numero_arrendissement,_result.nom_du_candidat,_result.prenom_du_candidat"),
-     @NamedQuery(
-                name = "Resultat_psd_1.getListCandidat",
-                query = "SELECT _result.nom_du_candidat,_result.prenom_du_candidat,SUM(_result.nombre_de_voix_du_candidat),SUM(_result.nombre_de_votants) FROM Resultat_psd_1 _result GROUP BY _result.nom_du_candidat,_result.prenom_du_candidat " ),
-   
-        @NamedQuery(
-                name = "Resultat_psd_1.getResultByName",
-                query = "SELECT _result FROM Resultat_psd_1 _result "
-                        + "WHERE _result.nom_du_candidat = :nomC AND _result.prenom_du_candidat = :prenomC"),
-        
-     @NamedQuery(
-                name="Resultat_psd_1.getResultGlobal",
-                query = "SELECT _result FROM Resultat_psd_1 _result "
-        ),
-      @NamedQuery(
-                name="Resultat_psd_1.getStatistiqueByArrondissement",
-                query = "SELECT _result.numero_arrendissement,SUM(_result.nombre_de_votants)as nombre_votans,SUM(_result.nombre_inscrits)as nombres_inscrits,SUM(_result.nombre_d_exprimes) as nombre_exprimé FROM Resultat_psd_1 _result GROUP BY _result.numero_arrendissement"
-        ),    
-      @NamedQuery(
-                name="Resultat_psd_1.getStatistiqueByBureaux",
-                query = "SELECT _result.numero_de_bureau_de_vote ,SUM(_result.nombre_de_votants)as nombre_votans,SUM(_result.nombre_inscrits)as nombres_inscrits,SUM(_result.nombre_d_exprimes) as nombre_exprimé FROM Resultat_psd_1 _result GROUP BY _result.numero_de_bureau_de_vote"
-        ),    
-})
-public class Resultat_psd_1 implements Serializable {
+
+public class Resultat_leg_2 implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -64,9 +38,6 @@ public class Resultat_psd_1 implements Serializable {
 
     @Column(nullable = false)
     private @NotNull String nombre_de_voix_du_candidat;
-    
-    @Column(nullable = false)
-    private @NotNull String nombre_inscrits;
 
 
     @Transient
@@ -77,19 +48,11 @@ public class Resultat_psd_1 implements Serializable {
         nom_complet = nom_du_candidat + " " + prenom_du_candidat;
     }
 
-    public String getNombre_inscrits() {
-        return nombre_inscrits;
+
+    public Resultat_leg_2() {
     }
 
-    public void setNombre_inscrits(String nombre_inscrits) {
-        this.nombre_inscrits = nombre_inscrits;
-    }
-
-     
-    public Resultat_psd_1() {
-    }
-
-    public Resultat_psd_1(@NotNull String numero_arrendissement, @NotNull String numero_de_bureau_de_vote, @NotNull String code_commune, @NotNull String nombre_de_votants, @NotNull String nombre_inscrits, @NotNull String nombre_d_exprimes, @NotNull String nom_du_candidat, @NotNull String prenom_du_candidat, @NotNull String nombre_de_voix_du_candidat) {
+    public Resultat_leg_2(@NotNull String numero_arrendissement, @NotNull String numero_de_bureau_de_vote, @NotNull String code_commune, @NotNull String nombre_de_votants, @NotNull String nombre_d_exprimes, @NotNull String nom_du_candidat, @NotNull String prenom_du_candidat, @NotNull String nombre_de_voix_du_candidat) {
         this.numero_arrendissement = numero_arrendissement;
         this.numero_de_bureau_de_vote = numero_de_bureau_de_vote;
         this.code_commune = code_commune;
@@ -98,7 +61,6 @@ public class Resultat_psd_1 implements Serializable {
         this.nom_du_candidat = nom_du_candidat;
         this.prenom_du_candidat = prenom_du_candidat;
         this.nombre_de_voix_du_candidat = nombre_de_voix_du_candidat;
-        this.nombre_inscrits=nombre_inscrits;
     }
 
     public Long getId() {
