@@ -51,7 +51,7 @@ public class LoadDataService {
                 if (i % PRECISION == 0)
                     LOG.info("Loading bureaux.csv: {}%", i / 9);
 
-                if (i == 1000) // Max = 896
+                if (i == 100) // Max = 896
                     break;
                 i++;
             }
@@ -94,7 +94,7 @@ public class LoadDataService {
                 if (i % PRECISION == 0)
                     LOG.info("Loading res_psd_1.csv: {}%", i / 100);
 
-                if (i == 100) // max = 10045
+                if (i == 100) // max = 9857
                     break;
                 i++;
             }
@@ -277,7 +277,7 @@ public class LoadDataService {
                         LOG.info("Loading adresse_paris.csv: {}%", p);
                 }
 
-                if (i == 1000) // max = 146562
+                if (i == 100) // max = 146562
                     break;
                 i++;
             }
@@ -326,7 +326,7 @@ public class LoadDataService {
                     LOG.info("Loading zone_de_rattachement.csv: {}%", (i / 9));
 
 
-                if (i == 10000) // max = 869
+                if (i == 100) // max = 869
                     break;
                 i++;
             }
