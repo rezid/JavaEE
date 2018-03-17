@@ -11,6 +11,15 @@
             30
         </session-timeout>
     </session-config>
+    <!-- PrimeFaces specific settings. -->
+    <context-param>
+        <param-name>primefaces.FONT_AWESOME</param-name>
+        <param-value>true</param-value> <!-- Enable referencing Font Awesome icons in CSS. -->
+    </context-param>
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>omega</param-value>
+    </context-param>
     <!-- Show JSF debugging information in server log (when we forget to add <h:messages> to facelets page) -->
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>

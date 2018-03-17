@@ -39,24 +39,6 @@
                     </li>
                 </ul>
 
-                <h4>Recherche par adresse</h4>
-                <ul>
-                    <li class="select" id="adresse1">
-                        <label>Votre adresse: </label>
-                        <p:autoComplete value="#{bureauBean.selectedAddress}" completeMethod="#{adresseBean.complete}"
-                                        maxResults="5"
-                                        placeholder="Tapez votre adresse ici." style="width:380px;">
-                        </p:autoComplete>
-
-                        <p:commandButton id="searchButton" actionListener="#{bureauBean.searchBureau}"
-                                         icon="ui-icon-search" update="@form"/>
-
-                        <p:commandButton id="clearSearchButton" actionListener="#{bureauBean.cancelSearchBureau}"
-                                         icon="ui-icon-cancel" update="@form"/>
-
-
-                    </li>
-                </ul>
             </section>
 
             <section class="contenu">

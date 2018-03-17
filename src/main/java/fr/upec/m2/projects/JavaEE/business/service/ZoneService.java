@@ -1,7 +1,5 @@
 package fr.upec.m2.projects.JavaEE.business.service;
 
-import fr.upec.m2.projects.JavaEE.model.Adresse;
-import fr.upec.m2.projects.JavaEE.model.Point2D;
 import fr.upec.m2.projects.JavaEE.model.Zone;
 
 import javax.ejb.Stateless;

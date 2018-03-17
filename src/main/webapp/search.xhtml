@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<ui:composition template="/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+>
+    <ui:define name="content">
+            <section >
+
+                <h4>Tapez votre adresse</h4>
+
+                <h:form>
+                    <p:growl id="msgs" showDetail="true" />
+
+                    <h:panelGrid columns="2" cellpadding="5">
+
+                        <p:outputLabel value="Nom rue:" for="street_name" />
+                        <p:autoComplete id="street_name" minQueryLength="3" effect="fade" maxResults="8"
+                                        value="#{addressBean.type_address}"
+                                        completeMethod="#{addressBean.get_suggested_address_list()}" var="adr"
+                                        itemLabel="#{adr.street_name}"
+                                        itemValue="#{adr}"
+                                        converter="addressConverter"
+                        >
+                            <f:ajax event="keyup" execute="@this"/>
+                            <f:ajax event="mouseup" execute="@this"/>
+                        </p:autoComplete>
+
+
+                        <p:outputLabel value="Numero rue:" for="street_number" />
+                        <p:autoComplete id="street_number" minQueryLength="3" effect="fade" maxResults="8"
+                                        value="#{addressBean.type_address}"
+                                        completeMethod="#{addressBean.get_suggested_address_list()}" var="adr"
+                                        itemLabel="#{adr.street_number}"
+                                        itemValue="#{adr}"
+                                        converter="addressConverter"
+                        >
+                            <f:ajax event="keyup" execute="@this"/>
+                            <f:ajax event="mouseup" execute="@this"/>
+                        </p:autoComplete>
+
+                        <!--
+                        <p:outputLabel value="Code postale:" for="zip_code" />
+                        <p:autoComplete id="zip_code" value="#{addressBean.typed_address}"
+                                        completeMethod="#{addressBean.get_suggested_address_list}" effect="fade" />
+-->
+                    </h:panelGrid>
+
+                    <p:commandButton value="Rechercher" icon="fa fa-search" />
+
+
+                </h:form>
+            </section>
+
+            <section >
+                <h2>Adresse de votre bureau de vote</h2>
+            </section>
+
+    </ui:define>
+
+    <ui:define name="h1">
+        Rechercher votre bureaux de vote
+    </ui:define>
+
+</ui:composition>

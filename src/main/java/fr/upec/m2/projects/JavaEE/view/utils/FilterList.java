@@ -46,10 +46,10 @@ public class FilterList implements Serializable {
 
             switch (value) {
                 case "BY_ADR_ASC":
-                    filter.setValue("Adresse (ascendant)");
+                    filter.setValue("Address (ascendant)");
                     break;
                 case "BY_ADR_DSC":
-                    filter.setValue("Adresse (descendant)");
+                    filter.setValue("Address (descendant)");
                     break;
                 case "BY_LIB_ASC":
                     filter.setValue("Nom (ascendant)");
