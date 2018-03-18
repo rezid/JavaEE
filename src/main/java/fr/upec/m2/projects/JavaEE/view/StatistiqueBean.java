@@ -5,14 +5,12 @@
  */
 
 package fr.upec.m2.projects.JavaEE.view;
-import fr.upec.m2.projects.JavaEE.business.service.ResultService;
-import fr.upec.m2.projects.JavaEE.business.service.ResultatGlobalService;
-import fr.upec.m2.projects.JavaEE.business.service.StatistiqueService;
+import fr.upec.m2.projects.JavaEE.business.ResultService;
+import fr.upec.m2.projects.JavaEE.business.StatistiqueService;
 import fr.upec.m2.projects.JavaEE.model.Resultat_psd_1;
 import fr.upec.m2.projects.JavaEE.view.utils.Filter;
 import fr.upec.m2.projects.JavaEE.view.utils.FilterList;
 import java.io.Serializable;
-import java.util.Comparator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;

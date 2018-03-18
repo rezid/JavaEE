@@ -1,4 +1,4 @@
-package fr.upec.m2.projects.JavaEE.business.service;
+package fr.upec.m2.projects.JavaEE.business;
 
 import fr.upec.m2.projects.JavaEE.model.*;
 import org.apache.commons.csv.CSVFormat;
@@ -14,20 +14,24 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.*;
 import java.io.*;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /* This Singleton bean manage the transaction because we need control over the commit
  * if we let the container manage the transaction, the exception transaction timeout will occur.
  */
 
+
 @Startup
 @Singleton
 @ConcurrencyManagement(ConcurrencyManagementType.BEAN)
 @TransactionManagement(value = TransactionManagementType.BEAN)
+
 public class LoadDataService {
 
     private static final Logger LOG  = LogManager.getLogger(LoadDataService.class);
-    private static final int PRECISION = 100; // number of persisted object before committing.
-    private static final int MAX = 100; // Must be grater than 146562 to parse all tuple in csv files
+    private static final int PRECISION = 1; // number of persisted object before committing.
+    private static final int MAX = 100;//150000; // Must be grater than 146562 to parse all tuple in csv files
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -60,29 +64,64 @@ public class LoadDataService {
 
             int i = 0;
             for (CSVRecord record : records) {
-                Polygon polygon = new Polygon();
+
+                // polygon coordinates
+                List<Double> polygon_latitude_gps_coordinate_list = new ArrayList<>();
+                List<Double> polygon_longitude_gps_coordinate_list = new ArrayList<>();
                 String pointList = record.get("Geo Shape").split(": ")[2];
                 pointList = pointList.substring(3, pointList.length() - 4);
                 for (String point: pointList.split("\\], \\[")) {
-                    Point2D point2D = new Point2D();
-                    String lon = point.split(" ")[0];
-                    lon = lon.substring(0, lon.length() - 1);
-                    point2D.setCoordinates_longitude(lon);
-                    point2D.setCoordinates_latitude(point.split(" ")[1]);
-                    polygon.addPoint(point2D);
+                    String point_longitude = point.split(" ")[0];
+                    String point_latitude = point.split(" ")[1];
+                    point_longitude = point_longitude.substring(0, point_longitude.length() - 1);
+                    Double c_latitude_double = 0.0;
+                    Double c_longitude_double = 0.0;
+                    try {
+                        c_latitude_double = Double.parseDouble(point_latitude);
+                        c_longitude_double = Double.parseDouble(point_longitude);
+                    } catch (NumberFormatException e) {
+                        LOG.error("GPS coordinate number {} can't be converted to double: -{}- -{}-", i,
+                                point_latitude, point_longitude);
+                        break;
+                    }
+                    polygon_latitude_gps_coordinate_list.add(c_latitude_double);
+                    polygon_longitude_gps_coordinate_list.add(c_longitude_double);
                 }
 
-                Zone zone = new Zone(
-                        polygon,
-                        record.get("ARRONDISSE") + "-" + record.get("NUM_BV")
-                );
+                // office number
+                String office_number = record.get("ARRONDISSE") + "-" + record.get("NUM_BV");
 
-                entityManager.persist(zone);
+                // office coordinate
+                String office_latitude_coordinate_string = record.get("Geo Point").split(", ")[0];
+                String office_longitude_coordinate_string = record.get("Geo Point").split(", ")[1];
+                Double c_latitude_double = 0.0;
+                Double c_longitude_double = 0.0;
+                try {
+                    c_latitude_double = Double.parseDouble(office_latitude_coordinate_string);
+                    c_longitude_double = Double.parseDouble(office_longitude_coordinate_string);
+                } catch (NumberFormatException e) {
+                    LOG.error("GPS coordinate number {} can't be converted to double: -{}- -{}-", i,
+                            office_latitude_coordinate_string, office_longitude_coordinate_string);
+                    break;
+                }
+
+                // persist Zone
+                entityManager.persist(new Zone(office_number, polygon_latitude_gps_coordinate_list,
+                        polygon_longitude_gps_coordinate_list, c_latitude_double, c_longitude_double)
+                );
 
                 if (i % PRECISION == 0) {
                     try {
                         userTransaction.commit();
                         userTransaction.begin();
+                    } catch (RollbackException e) {
+                        LOG.error("Rollback transaction: {}", e.getMessage());
+                        try {
+                            // userTransaction.rollback();
+                            userTransaction.begin();
+                        } catch (Exception e1) {
+                            LOG.error("begin after Rollback error: {}", e1.getMessage());
+                        }
                     } catch (Exception e) {
                         LOG.error("Error in committing/beginning transaction: {}", e.getMessage());
                     }
@@ -112,18 +151,34 @@ public class LoadDataService {
 
             int i = 0;
             for (CSVRecord record : records) {
-                Bureau bureau = new Bureau(
-                        record.get("objectid"),
-                        record.get("id_bv"),
-                        record.get("lib"),
-                        record.get("adresse"),
-                        record.get("cp")
-                );
-                entityManager.persist(bureau);
+
+                // office number
+                String office_number = record.get("id_bv");
+                String address = record.get("adresse");
+                String street_number = address.split(" ", 2)[0];
+                String street_name = address.split(" ", 2)[1];
+
+                // office address
+                String zip_code = record.get("cp");
+
+                // office name
+                String office_name = record.get("lib");
+
+                // persist Office
+                entityManager.persist(new Office(office_number, office_name, street_number, street_name,zip_code));
+
                 if (i % PRECISION == 0) {
                     try {
                         userTransaction.commit();
                         userTransaction.begin();
+                    } catch (RollbackException e) {
+                        LOG.error("Rollback transaction: {}", e.getMessage());
+                        try {
+                            // userTransaction.rollback();
+                            userTransaction.begin();
+                        } catch (Exception e1) {
+                            LOG.error("begin after Rollback error: {}", e1.getMessage());
+                        }
                     } catch (Exception e) {
                         LOG.error("Error in committing/beginning transaction: {}", e.getMessage());
                     }
@@ -176,6 +231,14 @@ public class LoadDataService {
                     try {
                         userTransaction.commit();
                         userTransaction.begin();
+                    } catch (RollbackException e) {
+                        LOG.error("Rollback transaction: {}", e.getMessage());
+                        try {
+                            // userTransaction.rollback();
+                            userTransaction.begin();
+                        } catch (Exception e1) {
+                            LOG.error("begin after Rollback error: {}", e1.getMessage());
+                        }
                     } catch (Exception e) {
                         LOG.error("Error in committing/beginning transaction: {}", e.getMessage());
                     }
@@ -413,6 +476,14 @@ public class LoadDataService {
                     try {
                         userTransaction.commit();
                         userTransaction.begin();
+                    } catch (RollbackException e) {
+                        LOG.error("Rollback transaction: {}", e.getMessage());
+                        try {
+                            // userTransaction.rollback();
+                            userTransaction.begin();
+                        } catch (Exception e1) {
+                            LOG.error("begin after Rollback error: {}", e1.getMessage());
+                        }
                     } catch (Exception e) {
                         LOG.error("Error in committing/beginning transaction: {}", e.getMessage());
                     }

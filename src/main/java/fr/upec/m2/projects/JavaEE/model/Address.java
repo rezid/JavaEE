@@ -34,7 +34,7 @@ public class Address implements Serializable {
     @Column(nullable = false)
     private @NotNull String street_name; // ex: AV CHARLE DEUX
 
-    @Column(nullable = false)
+    @Column(length = 5, nullable = false)
     private @NotNull String zip_code; // ex: 75005
 
     @Column(nullable = false)

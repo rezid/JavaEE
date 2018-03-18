@@ -11,56 +11,88 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
 >
     <ui:define name="content">
-            <section >
-
-                <h4>Tapez votre adresse</h4>
-
-                <h:form>
-                    <p:growl id="msgs" showDetail="true" />
-
-                    <h:panelGrid columns="2" cellpadding="5">
-
-                        <p:outputLabel value="Nom rue:" for="street_name" />
-                        <p:autoComplete id="street_name" minQueryLength="3" effect="fade" maxResults="8"
-                                        value="#{addressBean.type_address}"
-                                        completeMethod="#{addressBean.get_suggested_address_list()}" var="adr"
-                                        itemLabel="#{adr.street_name}"
-                                        itemValue="#{adr}"
-                                        converter="addressConverter"
-                        >
-                            <f:ajax event="keyup" execute="@this"/>
-                            <f:ajax event="mouseup" execute="@this"/>
-                        </p:autoComplete>
 
 
-                        <p:outputLabel value="Numero rue:" for="street_number" />
-                        <p:autoComplete id="street_number" minQueryLength="3" effect="fade" maxResults="8"
-                                        value="#{addressBean.type_address}"
-                                        completeMethod="#{addressBean.get_suggested_address_list()}" var="adr"
-                                        itemLabel="#{adr.street_number}"
-                                        itemValue="#{adr}"
-                                        converter="addressConverter"
-                        >
-                            <f:ajax event="keyup" execute="@this"/>
-                            <f:ajax event="mouseup" execute="@this"/>
-                        </p:autoComplete>
-
-                        <!--
-                        <p:outputLabel value="Code postale:" for="zip_code" />
-                        <p:autoComplete id="zip_code" value="#{addressBean.typed_address}"
-                                        completeMethod="#{addressBean.get_suggested_address_list}" effect="fade" />
--->
-                    </h:panelGrid>
-
-                    <p:commandButton value="Rechercher" icon="fa fa-search" />
 
 
-                </h:form>
-            </section>
+        <div class="ui-g">
+            <div class="ui-g-1">
+            </div>
 
-            <section >
-                <h2>Adresse de votre bureau de vote</h2>
-            </section>
+            <div class="ui-g-3" style="height:400px;">
+                <div style="vertical-align:middle;">
+                    <h4>Tapez votre adresse</h4>
+                    <h:form>
+                        <h:panelGrid columns="2" cellpadding="5">
+
+                            <p:outputLabel value="Nom de votre rue:" for="street_name" />
+                            <p:autoComplete id="street_name" minQueryLength="3" effect="fade" maxResults="8" unique="true"
+                                            value="#{addressBean.typed_street_name}"
+                                            placeholder="ex: Rue Vignon"
+                                            emptyMessage="aucun resultat trouvé"
+                                            completeMethod="#{addressBean.get_suggested_address_list(1)}" var="name"
+                                            itemLabel="#{name}"
+                                            itemValue="#{name}"
+                            >
+                                <f:ajax event="keyup" execute="@this"/>
+                                <f:ajax event="focus" execute="@this"/>
+                            </p:autoComplete>
+
+
+                            <p:outputLabel value="Numero de votre rue:" for="street_number" />
+                            <p:autoComplete id="street_number" effect="fade" maxResults="8" unique="true"
+                                            value="#{addressBean.typed_street_number}"
+                                            placeholder="ex: 35"
+                                            emptyMessage="aucun resultat trouvé"
+                                            completeMethod="#{addressBean.get_suggested_address_list(2)}" var="number"
+                                            itemLabel="#{number}"
+                                            itemValue="#{number}"
+                            >
+                                <f:ajax event="keyup" execute="@this"/>
+                                <f:ajax event="focus" execute="@this"/>
+                            </p:autoComplete>
+
+                            <p:outputLabel value="Votre code postale:" for="zip_code" />
+                            <p:autoComplete id="zip_code" effect="fade" maxResults="8" unique="true"
+                                            value="#{addressBean.typed_zip_code}" placeholder="ex: 75005"
+                                            emptyMessage="aucun resultat trouvé"
+                                            completeMethod="#{addressBean.get_suggested_address_list(3)}" var="zip"
+                                            itemLabel="#{zip}"
+                                            itemValue="#{zip}"
+                            >
+                                <f:ajax event="keyup" execute="@this"/>
+                                <f:ajax event="focus" execute="@this"/>
+                            </p:autoComplete>
+
+                            <p:commandButton value="Rechercher" icon="fa fa-search" />
+                            <p:commandButton value="Afficher tout les bureaux de vote" icon="fa fa-times" />
+
+                        </h:panelGrid>
+
+
+                    </h:form>
+                </div>
+            </div>
+
+            <div class="ui-g-7">
+                <p:gmap center="48.856614, 2.3522219000000177" zoom="12" type="terrain"
+                        style="width:100%;height:100%;float:right" model="#{mapBean.mapModel}" />
+            </div>
+
+            <div class="ui-g-1">
+            </div>
+        </div>
+
+
+        <div class="ui-g">
+            <div class="ui-g-2">
+            </div>
+            <div class="ui-g-8" style="background-color: #6dcd9a; text-align: center;">
+                <h4>Votre bureau est: 12, Rue Embasade, 75007. Regardez la map</h4>
+            </div>
+            <div class="ui-g-2">
+            </div>
+        </div>
 
     </ui:define>
 

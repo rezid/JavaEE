@@ -3,6 +3,7 @@ package fr.upec.m2.projects.JavaEE.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @NamedQueries({
@@ -15,45 +16,75 @@ public class Zone implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private String office_number; // ex: 18-46
 
-    @JoinColumn(nullable=false)
-    @OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    private Polygon polygon;
+    @ElementCollection
+    private List<Double> polygon_latitude_gps_coordinate_list;
+
+    @ElementCollection
+    private List<Double> polygon_longitude_gps_coordinate_list;
 
     @Column(nullable = false)
-    private @NotNull String numero_bureau;
+    private @NotNull Double latitude_gps_coordinate; // ex: 48.4598
+
+    @Column(nullable = false)
+    private @NotNull Double longitude_gps_coordinate; // ex: 2.6758
+
+    //------------------------------------------------------------------------------------------------------------------
 
     public Zone() {
     }
 
-    public Zone(Polygon polygon, @NotNull String numero_bureau) {
-        this.polygon = polygon;
-        this.numero_bureau = numero_bureau;
+    public Zone(String office_number, List<Double> polygon_latitude_gps_coordinate_list, List<Double> polygon_longitude_gps_coordinate_list, @NotNull Double latitude_gps_coordinate, @NotNull Double longitude_gps_coordinate) {
+        this.office_number = office_number;
+        this.polygon_latitude_gps_coordinate_list = polygon_latitude_gps_coordinate_list;
+        this.polygon_longitude_gps_coordinate_list = polygon_longitude_gps_coordinate_list;
+        this.latitude_gps_coordinate = latitude_gps_coordinate;
+        this.longitude_gps_coordinate = longitude_gps_coordinate;
     }
 
-    public Long getId() {
-        return id;
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    public String getOffice_number() {
+        return office_number;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setOffice_number(String office_number) {
+        this.office_number = office_number;
     }
 
-    public Polygon getPolygon() {
-        return polygon;
+    public List<Double> getPolygon_latitude_gps_coordinate_list() {
+        return polygon_latitude_gps_coordinate_list;
     }
 
-    public void setPolygon(Polygon polygon) {
-        this.polygon = polygon;
+    public void setPolygon_latitude_gps_coordinate_list(List<Double> polygon_latitude_gps_coordinate_list) {
+        this.polygon_latitude_gps_coordinate_list = polygon_latitude_gps_coordinate_list;
     }
 
-    public String getNumero_bureau() {
-        return numero_bureau;
+    public List<Double> getPolygon_longitude_gps_coordinate_list() {
+        return polygon_longitude_gps_coordinate_list;
     }
 
-    public void setNumero_bureau(String numero_bureau) {
-        this.numero_bureau = numero_bureau;
+    public void setPolygon_longitude_gps_coordinate_list(List<Double> polygon_longitude_gps_coordinate_list) {
+        this.polygon_longitude_gps_coordinate_list = polygon_longitude_gps_coordinate_list;
     }
+
+    public Double getLatitude_gps_coordinate() {
+        return latitude_gps_coordinate;
+    }
+
+    public void setLatitude_gps_coordinate(Double latitude_gps_coordinate) {
+        this.latitude_gps_coordinate = latitude_gps_coordinate;
+    }
+
+    public Double getLongitude_gps_coordinate() {
+        return longitude_gps_coordinate;
+    }
+
+    public void setLongitude_gps_coordinate(Double longitude_gps_coordinate) {
+        this.longitude_gps_coordinate = longitude_gps_coordinate;
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
 }

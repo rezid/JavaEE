@@ -1,7 +1,6 @@
-package fr.upec.m2.projects.JavaEE.business.service;
+package fr.upec.m2.projects.JavaEE.business;
 
 import fr.upec.m2.projects.JavaEE.model.Address;
-import fr.upec.m2.projects.JavaEE.view.AddressBean;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

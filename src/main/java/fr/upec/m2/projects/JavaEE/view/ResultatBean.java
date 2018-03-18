@@ -6,7 +6,7 @@
 package fr.upec.m2.projects.JavaEE.view;
 
 
-import fr.upec.m2.projects.JavaEE.business.service.ResultService;
+import fr.upec.m2.projects.JavaEE.business.ResultService;
 import fr.upec.m2.projects.JavaEE.model.Resultat_psd_1;
 import fr.upec.m2.projects.JavaEE.view.utils.FilterList;
 import java.io.Serializable;
