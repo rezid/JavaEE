@@ -1,4 +1,4 @@
-package fr.upec.m2.projects.JavaEE.business.service;
+package fr.upec.m2.projects.JavaEE.business;
 
 import fr.upec.m2.projects.JavaEE.model.Resultat;
 import fr.upec.m2.projects.JavaEE.model.Resultat_psd_1;

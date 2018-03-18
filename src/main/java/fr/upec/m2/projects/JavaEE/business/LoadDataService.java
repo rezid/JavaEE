@@ -214,7 +214,7 @@ public class LoadDataService {
 
             int i = 0;
             for (CSVRecord record : records) {
-                Resultat_leg_2 resultat = new Resultat_leg_2(
+                Resultat resultat = new Resultat_log_2(
                         record.get("numero_d_arrondissement_01_a_20"),
                         record.get("numero_de_bureau_de_vote_000_a_999"),
                         record.get("code_commune_insee_751_01_a_20"),
@@ -222,8 +222,8 @@ public class LoadDataService {
                         record.get("nombre_d_exprimes_du_bureau_de_vote"),
                         record.get("nom_du_candidat_ou_liste"),
                         record.get("prenom_du_candidat_ou_liste"),
-                        record.get("nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote")
-
+                        record.get("nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote"),
+                        record.get("nombre_d_inscrits_du_bureau_de_vote")
                 );
                 entityManager.persist(resultat);
 
@@ -274,7 +274,7 @@ public class LoadDataService {
 
             int i = 0;
             for (CSVRecord record : records) {
-                Resultat_leg_1 resultat = new Resultat_leg_1(
+                Resultat resultat = new Resultat_log_1(
                         record.get("numero_d_arrondissement_01_a_20"),
                         record.get("numero_de_bureau_de_vote_000_a_999"),
                         record.get("code_commune_insee_751_01_a_20"),
@@ -282,8 +282,8 @@ public class LoadDataService {
                         record.get("nombre_d_exprimes_du_bureau_de_vote"),
                         record.get("nom_du_candidat_ou_liste"),
                         record.get("prenom_du_candidat_ou_liste"),
-                        record.get("nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote")
-
+                        record.get("nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote"),
+                        record.get("nombre_d_inscrits_du_bureau_de_vote")
                 );
                 entityManager.persist(resultat);
 
@@ -326,7 +326,7 @@ public class LoadDataService {
 
             int i = 0;
             for (CSVRecord record : records) {
-                Resultat_psd_2 resultat = new Resultat_psd_2(
+                Resultat resultat = new Resultat_psd_2(
                         record.get("numero_d_arrondissement_01_a_20"),
                         record.get("numero_de_bureau_de_vote_000_a_999"),
                         record.get("code_commune_insee_751_01_a_20"),
@@ -334,8 +334,8 @@ public class LoadDataService {
                         record.get("nombre_d_exprimes_du_bureau_de_vote"),
                         record.get("nom_du_candidat_ou_liste"),
                         record.get("prenom_du_candidat_ou_liste"),
-                        record.get("nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote")
-
+                        record.get("nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote"),
+                        record.get("nombre_d_inscrits_du_bureau_de_vote")
                 );
                 entityManager.persist(resultat);
 
@@ -382,16 +382,16 @@ public class LoadDataService {
 
             int i = 0;
             for (CSVRecord record : records) {
-                Resultat_psd_1 resultat = new Resultat_psd_1(
+                Resultat resultat = new Resultat_psd_1(
                         record.get("numero_d_arrondissement_01_a_20"),
                         record.get("numero_de_bureau_de_vote_000_a_999"),
                         record.get("code_commune_insee_751_01_a_20"),
                         record.get("nombre_de_votants_du_bureau_de_vote"),
-                        record.get("nombre_d_inscrits_du_bureau_de_vote"),
                         record.get("nombre_d_exprimes_du_bureau_de_vote"),
                         record.get("nom_du_candidat_ou_liste"),
                         record.get("prenom_du_candidat_ou_liste"),
-                        record.get("nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote")
+                        record.get("nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote"),
+                        record.get("nombre_d_inscrits_du_bureau_de_vote")
                 );
                 entityManager.persist(resultat);
 

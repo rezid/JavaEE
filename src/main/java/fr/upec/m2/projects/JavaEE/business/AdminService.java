@@ -1,7 +1,6 @@
-package fr.upec.m2.projects.JavaEE.business.service;
+package fr.upec.m2.projects.JavaEE.business;
 
 import fr.upec.m2.projects.JavaEE.model.AdminUser;
-import fr.upec.m2.projects.JavaEE.model.Bureau;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

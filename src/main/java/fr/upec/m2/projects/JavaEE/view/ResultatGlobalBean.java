@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package fr.upec.m2.projects.JavaEE.view;
-import fr.upec.m2.projects.JavaEE.business.service.ResultatGlobalService;
+import fr.upec.m2.projects.JavaEE.business.ResultatGlobalService;
 import fr.upec.m2.projects.JavaEE.model.Resultat;
 import fr.upec.m2.projects.JavaEE.view.utils.Filter;
 import fr.upec.m2.projects.JavaEE.view.utils.FilterList;
