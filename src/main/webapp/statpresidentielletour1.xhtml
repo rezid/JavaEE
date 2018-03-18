@@ -16,6 +16,16 @@
                     </ui:repeat>
                 <h4>Filtre statique</h4>
                 <ul>
+                        <li class="select">
+                        <label>Type </label>
+                        <h:selectOneMenu value = "#{statistiqueBean.typeElection}" >
+                            <f:selectItem itemValue = "Resultat_psd_1" itemLabel = "Election présdientielle 1" />
+                            <f:selectItem itemValue = "Resultat_psd_2" itemLabel = "Election présdientielle 2" />
+                            <f:selectItem itemValue = "Resultat_log_1" itemLabel = "Election législative 1" />
+                            <f:selectItem itemValue = "Resultat_log_2" itemLabel = "Election législative 2" />
+                            <f:ajax render="@form"  />
+                        </h:selectOneMenu>
+                    </li>
                     <li class="select">
                         <label>Filtrer : : </label>
                         <h:selectOneMenu value = "#{statistiqueBean.statistique}">

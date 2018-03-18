@@ -2,11 +2,9 @@
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:h="http://xmlns.jcp.org/jsf/html"
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    <ul>
+    <ul style="height: 60px;" class="textStyle">
         <li><h:graphicImage styleClass="logo" library="images" name="logo.png"/></li>
-
         <li><a href="home.xhtml">Accueil</a></li>
-
         <li class="dropdown">
             <a href="javascript:void(0)" class="dropbtn">Bureaux de vote</a>
             <div class="dropdown-content">
@@ -14,34 +12,11 @@
                 <a href="search.xhtml">Recherche</a>
             </div>
         </li>
-
-        <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn">Score d’un candidat</a>
-            <div class="dropdown-content">
-                <a href="global.xhtml">Global</a>
-                <a href="score.xhtml">Par arrondissement</a>
-                <a href="rang.xhtml">Rang</a>
-            </div>
-        </li>
-  
-        
-        
-        <li><a href="result.xhtml">Resultats</a></li>
-        
-           <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn">Statistiques</a>
-            <div class="dropdown-content">
-                <a href="statpresidentielletour1.xhtml">presidentielles tour 1</a>
-                <a href="score.xhtml">presidentielles tour 2</a>
-                <a href="rang.xhtml">Legislatives Tour 1</a>
-                <a href="rang.xhtml">Legislatives Tour 2</a>
-            </div>
-        </li>
-  
-
+        <li><a href="score.xhtml">Score</a></li>
+        <li><a href="resultats.xhtml">Resultats</a></li>
+        <li><a href="statpresidentielletour1.xhtml">Statistiques</a></li>
         <ui:insert name="nav-user">
             <ui:include src="/layout/nav-user.xhtml" />
         </ui:insert>
-
     </ul>
 </ui:composition>

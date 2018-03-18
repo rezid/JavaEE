@@ -43,7 +43,10 @@ public class StatistiqueBean  implements Serializable{
     private boolean is_label_asc = true;
     private boolean is_cp_asc = true;
     private String statistique;
-     private List <String[]> fullNameList ;
+    private List <String[]> fullNameList ;
+    private String typeElection;
+
+    
     public StatistiqueBean() {
      filterList = new FilterList();
    
@@ -56,7 +59,8 @@ public class StatistiqueBean  implements Serializable{
     private ResultService resultService;
      @PostConstruct
     public void init() {
-        resultStatistique= statistiqueService.getStatistiqueByArrondissement();
+        typeElection="Resultat_psd_1";
+        resultStatistique= statistiqueService.getStatistiqueByArrondissement(typeElection);
         statistique="arr";
        
     }
@@ -68,14 +72,15 @@ public class StatistiqueBean  implements Serializable{
     public void setStatistique(String statistique) {
         this.statistique = statistique;
         if(statistique.equalsIgnoreCase("arr")){
-           resultStatistique=statistiqueService.getStatistiqueByArrondissement();
+           resultStatistique=statistiqueService.getStatistiqueByArrondissement(typeElection);
         }
         else if(statistique.equalsIgnoreCase("bur")){
             
-            resultStatistique=statistiqueService.getStatistiqueByBureaux();
+            resultStatistique=statistiqueService.getStatistiqueByBureaux(typeElection);
            }
         else{
-            fullNameList=resultService.getListCandidat();
+            fullNameList=resultService.getListCandidat(typeElection);
+            String a="n";
         }
         
         
@@ -106,11 +111,16 @@ public class StatistiqueBean  implements Serializable{
     public List<Filter> getFilterList() {
         return filterList.getFilterList();
     }
+   public String getTypeElection() {
+        return typeElection;
+    }
 
-    
-    
- 
-    
+    public void setTypeElection(String typeElection) {
+        this.typeElection = typeElection;
+        resultStatistique=statistiqueService.getStatistiqueByArrondissement(typeElection);
+        fullNameList=resultService.getListCandidat(typeElection);
+        
+    }
     
 
 }

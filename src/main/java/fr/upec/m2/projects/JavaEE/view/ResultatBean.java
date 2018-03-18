@@ -8,11 +8,17 @@ package fr.upec.m2.projects.JavaEE.view;
 
 import fr.upec.m2.projects.JavaEE.business.ResultService;
 import fr.upec.m2.projects.JavaEE.model.Resultat_psd_1;
+import fr.upec.m2.projects.JavaEE.model.Resultat;
+import fr.upec.m2.projects.JavaEE.model.Resultat_psd_2;
+import fr.upec.m2.projects.JavaEE.model.Resultat_log_1;
+import fr.upec.m2.projects.JavaEE.model.Resultat_log_2;
+
 import fr.upec.m2.projects.JavaEE.view.utils.FilterList;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -26,10 +32,11 @@ public class ResultatBean implements Serializable{
     
     private static final Logger LOG = LogManager.getLogger(ResultatBean.class);
     
-    private List<Resultat_psd_1> resultList;
-    private boolean is_adr_asc = true;
-    private boolean is_label_asc = true;
-    private boolean is_cp_asc = true;
+    private List<Resultat> resultList;
+    private List<Resultat_psd_2> resultListPSD2;
+    private List<Resultat_log_1> resultListLog1;
+    private List<Resultat_log_2> resultListLog2;
+    
     private String candidat;
     private FilterList filterList;
     private List <String[]> fullNameList ;
@@ -37,17 +44,21 @@ public class ResultatBean implements Serializable{
     private List <String []> ResultByArrondissement ;
     private Integer scoreGlobal=0;
     private String[] s = new String[4];
-
-    
+    private String resultat_type;
+    private boolean is_adr_asc = true;
+    private boolean is_label_asc = true;
+    private boolean is_cp_asc = true;
+            
     @Inject
     private ResultService resultService;
 
      @PostConstruct
     public void init() {
-        candidat="SARKOZY Nicolas";
-        resultList= resultService.getResultByName("SARKOZY", "Nicolas") ;
-        fullNameList=resultService.getListCandidat();
-        ResultByArrondissement=resultService.getAllResultByArrondissement("SARKOZY","Nicolas");
+        candidat="MACRON Emmanuel";
+        resultat_type = "Resultat_psd_1" ;
+        resultList = resultService.getResultByName("MACRON", "Emmanuel",resultat_type) ;
+        fullNameList=resultService.getListCandidat(resultat_type);
+        ResultByArrondissement=resultService.getAllResultByArrondissement("MACRON","Emmanuel",resultat_type);
         String val;
         for(Object[] o:ResultByArrondissement){
             val=(String)o[3];
@@ -55,20 +66,31 @@ public class ResultatBean implements Serializable{
         }
           
     }
-    
-    public FilterList getFilterList() {
-        return filterList;
-    }
 
-    public void setFilterList(FilterList filterList) {
-        this.filterList = filterList;
-    }
+  
+        public void localeChanged(ValueChangeEvent e) { 
+            scoreGlobal = 0;
+             resultat_type = e.getNewValue().toString(); ;
+             String nom ;
+             String prenom;
+                fullNameList=resultService.getListCandidat(resultat_type);
+                //resultat_type = "Resultat_psd_1" ;
+                //TODO:Test if nomPrenom null 
 
-    public ResultatBean() {
-        filterList = new FilterList();
-    }
-        
+                Object[] nomObj = (Object[])fullNameList.get(1);
+                 nom = (String) nomObj[0] ;
+                Object[] prenomObj = (Object[])fullNameList.get(1);
+                 prenom = (String) prenomObj[1] ;
+                
 
+                resultList = resultService.getResultByName(nom, prenom,resultat_type) ;
+                ResultByArrondissement=resultService.getAllResultByArrondissement(nom,prenom,resultat_type);
+                String val;
+                for(Object[] o:ResultByArrondissement){
+                    val=(String)o[3];
+                    scoreGlobal+=Integer.parseInt(val);
+                }
+            } 
     
     public List<String[]> getResultByArrondissement() {
         return ResultByArrondissement;
@@ -88,11 +110,11 @@ public class ResultatBean implements Serializable{
       scoreGlobal=0;
         this.candidat = candidat;
         
-        nomPrenom = candidat.split(" ");
+        nomPrenom = candidat.split("_");
         //filterList.addFilter("Code_p", candidat);
 
-            resultList = resultService.getResultByName(nomPrenom[0], nomPrenom[1]);
-            ResultByArrondissement=resultService.getAllResultByArrondissement(nomPrenom[0], nomPrenom[1]);
+            resultList = resultService.getResultByName(nomPrenom[0], nomPrenom[1],resultat_type);
+            ResultByArrondissement=resultService.getAllResultByArrondissement(nomPrenom[0], nomPrenom[1],resultat_type);
            String val;
            for(Object[] o:ResultByArrondissement){
             val=(String)o[3];
@@ -101,66 +123,9 @@ public class ResultatBean implements Serializable{
        
     }
 
-    public void sortByOrder(String order) {
-        LOG.info("sorting list by: {}", order);
-        if (resultList.isEmpty())
-            return;
-
-        switch (order) {
-            case "BY_NOM":
-                if (is_adr_asc) {
-                    resultList.sort(Comparator.comparing(Resultat_psd_1::getNom_du_candidat));
-                    filterList.addFilter("Order", "BY_NOM");
-                }
-                else {
-                    resultList.sort(Comparator.comparing(Resultat_psd_1::getNom_du_candidat).reversed());
-                    filterList.addFilter("Order", "BY_NOM");
-                }
-                is_adr_asc = !is_adr_asc;
-                break;
-
-            case "BY_ARR":
-                if (is_label_asc) {
-                    resultList.sort(Comparator.comparing(Resultat_psd_1::getNumero_arrendissement));
-                    filterList.addFilter("Order", "BY_ARR");
-                }
-                else {
-                    resultList.sort(Comparator.comparing(Resultat_psd_1::getNumero_arrendissement).reversed());
-                    filterList.addFilter("Order", "BY_ARR");
-                }
-                is_label_asc = !is_label_asc;
-                break;
-
-            case "BY_PRENOM":
-                if (is_cp_asc) {
-                    resultList.sort(Comparator.comparing(Resultat_psd_1::getPrenom_du_candidat));
-                    filterList.addFilter("Order", "BY_PRENOM");
-                }
-                else {
-                    resultList.sort(Comparator.comparing(Resultat_psd_1::getPrenom_du_candidat).reversed());
-                    filterList.addFilter("Order", "BY_PRENOM");
-                }
-                is_cp_asc = !is_cp_asc;
-                break;
-            
-            case "NBR_VOTE":
-                if (is_label_asc) {
-                    resultList.sort(Comparator.comparing(Resultat_psd_1::getNombre_de_voix_du_candidat));
-                    filterList.addFilter("Order", "NBR_VOTE");
-                }
-                else {
-                    resultList.sort(Comparator.comparing(Resultat_psd_1::getNombre_de_voix_du_candidat).reversed());
-                    filterList.addFilter("Order", "NBR_VOTE");
-                }
-                is_label_asc = !is_label_asc;
-                break;
-
-            default:
-                break;
-        }
-    }
     
-    
+      
+
     public String[] getNomPrenom() {
         return nomPrenom;
     }
@@ -169,12 +134,19 @@ public class ResultatBean implements Serializable{
         this.nomPrenom = nomPrenom;
     }
 
+     public void setresultat_type (String resultat_type) {
+         this.resultat_type = resultat_type ; 
+     }
    
-    public List<Resultat_psd_1> getResultList() {
+       public String getresultat_type () {
+         return resultat_type ; 
+     }
+   
+    public List<Resultat> getResultList() {
         return resultList;
     }
 
-    public void setResultList(List<Resultat_psd_1> ResultList) {
+    public void setResultList(List<Resultat> ResultList) {
         this.resultList = ResultList;
     }
 
@@ -201,7 +173,6 @@ public class ResultatBean implements Serializable{
     public void setS(String[] s) {
         this.s = s;
     }
-  
     
     public int getListResultSize() {
         return resultList.size();
@@ -210,5 +181,4 @@ public class ResultatBean implements Serializable{
     public int getListfullNameSize() {
         return fullNameList.size();
     }
-
 }
