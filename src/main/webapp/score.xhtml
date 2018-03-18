@@ -19,7 +19,7 @@
                  <ul>
                     <li class="select">
                         <label>Type </label>
-                        <h:selectOneMenu value = "#{resultatBean.resultat_type}"  valueChangeListener = "#{resultatBean.localeChanged}" >
+                        <h:selectOneMenu style="width: 240px; height: 30px"  value = "#{resultatBean.resultat_type}"  valueChangeListener = "#{resultatBean.localeChanged}" >
                             <f:selectItem itemValue = "Resultat_psd_1" itemLabel = "Election présdientielle 1" />
                             <f:selectItem itemValue = "Resultat_psd_2" itemLabel = "Election présdientielle 2" />
                             <f:selectItem itemValue = "Resultat_log_1" itemLabel = "Election législative 1" />
@@ -27,11 +27,9 @@
                             <f:ajax render="@form"  />
                         </h:selectOneMenu>
                     </li>
-                </ul>
-                <ul>
-                    <li class="select">
+                     <li class="select" >
                         <label>Nom et Prenom : </label>
-                        <h:selectOneMenu value = "#{resultatBean.candidat}">
+                        <h:selectOneMenu value = "#{resultatBean.candidat}" style="width: 150px; height: 30px"  >
                             <f:selectItems  value="#{resultatBean.fullNameList}" var="c" itemValue="#{c[0]}_#{c[1]}" itemLabel="#{c[0]} #{c[1]}">
                             </f:selectItems> 
                              <f:ajax render="@form" />      
@@ -57,7 +55,7 @@
 
                         <h:column>
                             <f:facet name="header">
-                                <h:commandLink action="#{bureauBean.sortByOrder('BY_LIB')}">
+                                <h:commandLink action="#{resultatBean.sortByOrder('BY_ARR')}">
                                     <f:ajax render="@form"/>
                                     Numero arrondissement
                                 </h:commandLink>
@@ -67,7 +65,7 @@
 
                         <h:column>
                             <f:facet name="header">
-                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ADR')}">
+                                <h:commandLink action="#{resultatBean.sortByOrder('BY_NOM')}">
                                     <f:ajax render="@form"/>
                                     Nom Candidat
                                 </h:commandLink>
@@ -77,7 +75,7 @@
 
                         <h:column>
                             <f:facet name="header">
-                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ADR')}">
+                                <h:commandLink action="#{resultatBean.sortByOrder('BY_NOM')}">
                                       <f:ajax render="@form"/>
                                     Prenom Candidat
                                 </h:commandLink>
@@ -87,7 +85,7 @@
 
                    <h:column>
                             <f:facet name="header">
-                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ADR')}">
+                                <h:commandLink action="#{resultatBean.sortByOrder('BY_NBR')}">
                                       <f:ajax render="@form"/>
                                     Nombre de voix
                                 </h:commandLink>
@@ -114,7 +112,7 @@
             <br/><br/><br/><br/><br/><br/>
             <h:link id="detail"  fragment="detail" />
             
-            <section class="contenu">             
+            <section class="contenu" style="margin-left: 350px">             
                 
                 <h2>#{resultatBean.candidat}</h2>
                 <div id="scrolltable">

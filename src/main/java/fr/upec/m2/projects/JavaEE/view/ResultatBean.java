@@ -15,6 +15,7 @@ import fr.upec.m2.projects.JavaEE.model.Resultat_log_2;
 
 import fr.upec.m2.projects.JavaEE.view.utils.FilterList;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.event.ValueChangeEvent;
@@ -44,17 +45,20 @@ public class ResultatBean implements Serializable{
     private Integer scoreGlobal=0;
     private String[] s = new String[4];
     private String resultat_type;
+    private boolean is_adr_asc = true;
+    private boolean is_label_asc = true;
+    private boolean is_cp_asc = true;
             
     @Inject
     private ResultService resultService;
 
      @PostConstruct
     public void init() {
-        candidat="SARKOZY Nicolas";
+        candidat="MACRON Emmanuel";
         resultat_type = "Resultat_psd_1" ;
-        resultList = resultService.getResultByName("SARKOZY", "Nicolas",resultat_type) ;
+        resultList = resultService.getResultByName("MACRON", "Emmanuel",resultat_type) ;
         fullNameList=resultService.getListCandidat(resultat_type);
-        ResultByArrondissement=resultService.getAllResultByArrondissement("SARKOZY","Nicolas",resultat_type);
+        ResultByArrondissement=resultService.getAllResultByArrondissement("MACRON","Emmanuel",resultat_type);
         String val;
         for(Object[] o:ResultByArrondissement){
             val=(String)o[3];
@@ -119,6 +123,9 @@ public class ResultatBean implements Serializable{
        
     }
 
+    
+      
+
     public String[] getNomPrenom() {
         return nomPrenom;
     }
@@ -166,7 +173,6 @@ public class ResultatBean implements Serializable{
     public void setS(String[] s) {
         this.s = s;
     }
-  
     
     public int getListResultSize() {
         return resultList.size();
@@ -175,5 +181,4 @@ public class ResultatBean implements Serializable{
     public int getListfullNameSize() {
         return fullNameList.size();
     }
-
 }
