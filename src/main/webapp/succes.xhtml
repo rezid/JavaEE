@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+     
+    <h:head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <h:outputStylesheet library="css" name="bootstrap.css"  />
+        <h:outputStylesheet library="css" name="style.css"  />
+        <h:outputStylesheet library="css" name="style-responsive.css"  />
+        <h:outputStylesheet library="font-awesome/css" name="font-awesome.css"  />
+    </h:head>
+
+
+  <h:body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+      <header class="header black-bg">
+              <div class="sidebar-toggle-box">
+                  <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+              </div>
+            <!--logo start-->
+            <a href="index.html" class="logo"><b>DASHGUM FREE</b></a>
+            <!--logo end-->
+            <div class="nav notify-row" id="top_menu">
+                <!--  notification start -->
+                <ul class="nav top-menu">
+                    <!-- settings start -->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                            <i class="fa fa-tasks"></i>
+                            <span class="badge bg-theme">4</span>
+                        </a>
+                  
+                    </li>
+                    <!-- settings end -->
+                    <!-- inbox dropdown start-->
+                    <li id="header_inbox_bar" class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                            <i class="fa fa-envelope-o"></i>
+                            <span class="badge bg-theme">5</span>
+                        </a>
+                        <ul class="dropdown-menu extended inbox">
+                            <div class="notify-arrow notify-arrow-green"></div>
+                            <li>
+                                <p class="green">You have 5 new messages</p>
+                            </li>
+                           
+                            
+                           
+                            <li>
+                                <a href="index.html#">
+                                    <span class="photo"> <h:graphicImage  value="/logo.png"/></span>
+                                    <span class="subject">
+                                    <span class="from">Dj Sherman</span>
+                                    <span class="time">4 hrs.</span>
+                                    </span>
+                                    <span class="message">
+                                        Please, answer asap.
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="index.html#">See all messages</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- inbox dropdown end -->
+                </ul>
+                <!--  notification end -->
+            </div>
+            <div class="top-menu">
+            	<ul class="nav pull-right top-menu">
+                    <li><a class="logout" href="login.html">Logout</a></li>
+            	</ul>
+            </div>
+        </header>
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+          <div id="sidebar"  class="nav-collapse ">
+              <!-- sidebar menu start-->
+              <ul class="sidebar-menu" id="nav-accordion">
+              
+              	  <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"/></a></p>
+              	  <h5 class="centered">Marcel Newman</h5>
+              	  	
+                  <li class="mt">
+                      <a href="index.html">
+                          <i class="fa fa-dashboard"></i>
+                          <span>Mon Compte</span>
+                      </a>
+                  </li>
+
+                  <li class="sub-menu">
+                      <a href="#" >
+                          <i class="fa fa-desktop"></i>
+                          
+                          <span>Modifier Les Adresse</span>
+                      </a>
+                     
+                  </li>
+
+                  <li class="sub-menu">
+                      <a href="#" >
+                          <i class="fa fa-cogs"></i>
+                          <span> Modifier la liste des bureaux</span>
+                      </a>
+                      
+                  </li>
+                  <li>
+               
+                      <a href="#" >
+                          <i class="fa fa-book"></i>
+                          <span>Modifier Les Resultats</span>
+                      </a>
+                     
+                  </li>
+                  <li>
+                      <a href="#" >
+                          <i class="fa fa-tasks"></i>
+                          <span>Modifier les ZONE DE RATTACHEMENTS</span>
+                      </a>
+                  </li>
+
+              </ul>
+              <!-- sidebar menu end-->
+          </div>
+      </aside>
+      <!--sidebar end-->
+      
+     
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper site-min-height">
+          	
+          	<div class="row mt">
+          		<div class="col-lg-12">
+                           
+                        <f:view>
+
+     <h:form id="form">
+        <p:growl id="msgs" showDetail="true"/>
+         <h1><h:outputText value="Liste des Bureaux"/></h1>
+        <p:dataTable value="#{bureauBean.bureauList}" var="item"
+                     paginator="true" rows="10" editable="true">
+            <p:ajax event="rowEdit" listener="#{bureauBean.onRowEdit}" update=":form:msgs" />
+            <p:ajax event="rowEditCancel" listener="#{bureauBean.onRowCancel}" update=":form:msgs" />
+              <p:column  sortBy="#{item.id}" filterBy="#{item.id}">
+            <f:facet name="header">
+              <h:outputText value="ID Bureau"/>
+            </f:facet>
+              <h:outputText value="#{item.id}"/>
+          </p:column>
+        
+          <p:column sortBy="#{item.numero_bureau}" filterBy="#{item.numero_bureau}">
+            <f:facet name="header">
+              <h:outputText value="Numero Bureau"/>
+            </f:facet>
+             <p:cellEditor>
+                 <f:facet name="output"><h:outputText value="#{item.numero_bureau}" /></f:facet>
+               <f:facet name="input"><p:inputText id="modelInput" value="#{item.numero_bureau}" style="width:100%"/></f:facet>
+           </p:cellEditor>
+          </p:column>
+             <p:column headerText="Adresse Bureau" sortBy="#{item.adresse_bureau}" filterBy="#{item.adresse_bureau}">
+           <p:cellEditor>
+               <f:facet name="output"><h:outputText value="#{item.adresse_bureau}" /></f:facet>
+               <f:facet name="input">
+                   <h:selectOneMenu value="#{item.adresse_bureau}" style="width:100% ; color: black;">
+                       <f:selectItems value="#{bureauBean.adresses}" var="color" itemLabel="#{color}" itemValue="#{color}" />
+                   </h:selectOneMenu>
+               </f:facet>
+           </p:cellEditor>
+       </p:column>
+    
+          <p:column sortBy="#{item.code_postal_bureau}" filterBy="#{item.code_postal_bureau}">
+            <f:facet name="header">
+              <h:outputText value="code postal bureau"/>
+            </f:facet>
+               <p:cellEditor>
+               <f:facet name="output"><h:outputText value="#{item.code_postal_bureau}" /></f:facet>
+                <f:facet name="input"><p:inputText value="#{item.code_postal_bureau}" style="width:100%" label="Code Postal"/></f:facet>
+               </p:cellEditor>
+             
+          </p:column>
+          <p:column sortBy="#{item.label_bureau}" filterBy="#{item.label_bureau}">
+            <f:facet name="header">
+              <h:outputText value="Nom Bureau"/>
+            </f:facet>
+              <p:cellEditor>
+               <f:facet name="output"><h:outputText value="#{item.label_bureau}" /></f:facet>
+                <f:facet name="input"><p:inputText value="#{item.label_bureau}" style="width:100%" label="Code Postal"/></f:facet>
+               </p:cellEditor>
+              
+          </p:column>
+            
+       <p:column style="width:100px">
+           <f:facet name="header">
+              <h:outputText value="Modifier"/>
+            </f:facet>
+           <p:rowEditor />
+       </p:column>
+            
+        </p:dataTable>
+      </h:form>
+    </f:view>
+          		</div>
+          	</div>
+			
+		</section>
+      </section><!-- /MAIN CONTENT -->
+
+      <!--main content end-->
+      <!--footer start-->
+      <footer class="site-footer">
+          <div class="text-center">
+              2014 - Alvarez.is
+              <a href="blank.html#" class="go-top">
+                  <i class="fa fa-angle-up"></i>
+              </a>
+          </div>
+      </footer>
+      <!--footer end-->
+  </section>
+
+  </h:body>
+</html>

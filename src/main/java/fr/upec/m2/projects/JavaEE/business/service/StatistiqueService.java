@@ -18,13 +18,19 @@ public class StatistiqueService  implements Serializable {
 
     @PersistenceContext
     private EntityManager entityManager;
-      public List<String[]> getStatistiqueByArrondissement() {       
-        return entityManager.createNamedQuery("Resultat_psd_1.getStatistiqueByArrondissement")
+      public List<String[]> getStatistiqueByArrondissement(String typeElectionSelectionne) { 
+          
+          String nameQuery = typeElectionSelectionne+".getStatistiqueByArrondissement";
+        return entityManager.createNamedQuery(nameQuery)
                 .getResultList();        
 }
 
-        public List<String[]> getStatistiqueByBureaux() {       
-        return entityManager.createNamedQuery("Resultat_psd_1.getStatistiqueByBureaux")
+        public List<String[]> getStatistiqueByBureaux(String typeElectionSelectionne) {      
+ 
+        String nameQuery = typeElectionSelectionne+".getStatistiqueByBureaux";
+        return entityManager.createNamedQuery(nameQuery)
                 .getResultList();        
 }
+        
+        
 }

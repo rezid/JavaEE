@@ -1,6 +1,8 @@
 package fr.upec.m2.projects.JavaEE.business.service;
 
+import fr.upec.m2.projects.JavaEE.model.AdminUser;
 import fr.upec.m2.projects.JavaEE.model.Bureau;
+import fr.upec.m2.projects.JavaEE.model.Resultat;
 import fr.upec.m2.projects.JavaEE.model.Resultat_psd_1;
 import fr.upec.m2.projects.JavaEE.model.Resultat_psd_2;
 import fr.upec.m2.projects.JavaEE.model.Resultat_log_1;
@@ -33,7 +35,14 @@ public class LoadDataService {
     @PostConstruct
     public void init() {
         String path = Thread.currentThread().getContextClassLoader().getResource("data/bureaux.csv").getPath();
-
+        
+            try{
+            AdminUser admin=new AdminUser("ramzi","chebbak","ramzi.chebbak@gmail.com","123456","04 rue salvador allende","admin");
+            entityManager.persist(admin);
+        }
+        catch(Exception e){
+            e.getMessage();
+        }
         try {
             path = URLDecoder.decode(path, "UTF-8");
             Reader in = new FileReader(path);
@@ -62,10 +71,10 @@ public class LoadDataService {
         }
 
 
-        load_res("data/resultat_psd_2017_1er.csv",0);
-        load_res("data/res_psd_2.csv",1);
-        load_res("data/res_leg_1.csv",2);
-        load_res("data/res_leg_2.csv",3);
+        load_res("data/resultat_psd_2017_1er.csv",1);
+        load_res("data/res_psd_2.csv",2);
+        load_res("data/res_leg_1.csv",3);
+        load_res("data/res_leg_2.csv",4);
 
         
     }
@@ -86,33 +95,11 @@ public class LoadDataService {
                                 "prenom_du_candidat_ou_liste","nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote","nombre_de_nuls_uniquement_du_bureau_de_vote",
                                 "nombre_de_blancs_uniquement_du_bureau_de_vote", "nombre_de_procurations_du_bureau_de_vote")
                         .parse(in);
-            if(votetype == 0 ) { 
+            if(votetype == 1 ) { 
                 int i=0;
                 for (CSVRecord record : records) {
                     i++;
-                    Resultat_psd_1 resultat = new Resultat_psd_1(
-                        record.get("numero_d_arrondissement_01_a_20"),
-                        record.get("numero_de_bureau_de_vote_000_a_999"),
-                        record.get("code_commune_insee_751_01_a_20"),
-                        record.get("nombre_de_votants_du_bureau_de_vote"),
-                        record.get("nombre_d_inscrits_du_bureau_de_vote"),
-                        record.get("nombre_d_exprimes_du_bureau_de_vote"),
-                        record.get("nom_du_candidat_ou_liste"),
-                        record.get("prenom_du_candidat_ou_liste"),
-                        record.get("nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote")
-                );
-                    entityManager.persist(resultat);
-    
-                    //LOG.error(resultat.getNom_du_candidat() + " " + resultat.getPrenom_du_candidat());
-                    if(i==100)
-                        break;
-                }
-                LOG.info("Loading in DB is done: bureaux.csv");
-            } else if (votetype == 1 ) { 
-                int i=0;
-                for (CSVRecord record : records) {
-                    i++;
-                    Resultat_psd_2 resultat = new Resultat_psd_2(
+                    Resultat resultat = new Resultat_psd_1(
                             record.get("numero_d_arrondissement_01_a_20"),
                             record.get("numero_de_bureau_de_vote_000_a_999"),
                             record.get("code_commune_insee_751_01_a_20"),
@@ -120,7 +107,8 @@ public class LoadDataService {
                             record.get("nombre_d_exprimes_du_bureau_de_vote"),
                             record.get("nom_du_candidat_ou_liste"),
                             record.get("prenom_du_candidat_ou_liste"),
-                            record.get("nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote")
+                            record.get("nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote"),
+                            record.get("nombre_d_inscrits_du_bureau_de_vote")
                     );
                     entityManager.persist(resultat);
     
@@ -128,12 +116,35 @@ public class LoadDataService {
                     if(i==100)
                         break;
                 }
-                LOG.info("Loading in DB is done: bureaux.csv");
+                LOG.info("Loading in DB is done: psd1.csv");
+            } else if (votetype == 2 ) { 
+                int i=0;
+                for (CSVRecord record : records) {
+                    i++;
+                    Resultat resultat = new Resultat_psd_2(
+                            record.get("numero_d_arrondissement_01_a_20"),
+                            record.get("numero_de_bureau_de_vote_000_a_999"),
+                            record.get("code_commune_insee_751_01_a_20"),
+                            record.get("nombre_de_votants_du_bureau_de_vote"),
+                            record.get("nombre_d_exprimes_du_bureau_de_vote"),
+                            record.get("nom_du_candidat_ou_liste"),
+                            record.get("prenom_du_candidat_ou_liste"),
+                            record.get("nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote"),
+                            record.get("nombre_d_inscrits_du_bureau_de_vote")       
+                                    
+                    );
+                    entityManager.persist(resultat);
+    
+                    //LOG.error(resultat.getNom_du_candidat() + " " + resultat.getPrenom_du_candidat());
+                    if(i==100)
+                        break;
+                }
+                LOG.info("Loading in DB is done: psd2.csv");
             } else if (votetype == 3 )  { 
                 int i=0;
                 for (CSVRecord record : records) {
                     i++;
-                    Resultat_log_1 resultat = new Resultat_log_1(
+                    Resultat resultat = new Resultat_log_1(
                             record.get("numero_d_arrondissement_01_a_20"),
                             record.get("numero_de_bureau_de_vote_000_a_999"),
                             record.get("code_commune_insee_751_01_a_20"),
@@ -141,7 +152,8 @@ public class LoadDataService {
                             record.get("nombre_d_exprimes_du_bureau_de_vote"),
                             record.get("nom_du_candidat_ou_liste"),
                             record.get("prenom_du_candidat_ou_liste"),
-                            record.get("nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote")
+                            record.get("nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote"),
+                            record.get("nombre_d_inscrits_du_bureau_de_vote") 
                     );
                     entityManager.persist(resultat);
     
@@ -149,12 +161,12 @@ public class LoadDataService {
                     if(i==100)
                         break;
                 }
-                LOG.info("Loading in DB is done: bureaux.csv");
+                LOG.info("Loading in DB is done: leg1.csv");
             } else if (votetype == 4 ) {
                 int i=0;
                 for (CSVRecord record : records) {
                     i++;
-                    Resultat_log_2 resultat = new Resultat_log_2(
+                    Resultat resultat = new Resultat_log_2(
                             record.get("numero_d_arrondissement_01_a_20"),
                             record.get("numero_de_bureau_de_vote_000_a_999"),
                             record.get("code_commune_insee_751_01_a_20"),
@@ -162,7 +174,8 @@ public class LoadDataService {
                             record.get("nombre_d_exprimes_du_bureau_de_vote"),
                             record.get("nom_du_candidat_ou_liste"),
                             record.get("prenom_du_candidat_ou_liste"),
-                            record.get("nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote")
+                            record.get("nombre_de_voix_du_candidat_ou_liste_obtenues_pour_le_bureau_de_vote"),
+                            record.get("nombre_d_inscrits_du_bureau_de_vote") 
                     );
                     entityManager.persist(resultat);
     
@@ -170,7 +183,7 @@ public class LoadDataService {
                     if(i==100)
                         break;
                 }
-                LOG.info("Loading in DB is done: bureaux.csv");
+                LOG.info("Loading in DB is done: leg2.csv");
             }
 
             } catch (UnsupportedEncodingException e) {

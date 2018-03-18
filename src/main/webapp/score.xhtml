@@ -12,15 +12,27 @@
         <h:form>
             <section class="filter">
                 <h4>#{bureauBean.listSize} enregistrement(s) trouvé(s)</h4>
-                <ui:repeat value="#{bureauBean.filterList}" var="filter">
+                    <ui:repeat value="#{bureauBean.filterList}" var="filter">
                         <p>#{filter.name}: #{filter.value}</p>
                     </ui:repeat>
                 <h4>Filtre statique</h4>
+                 <ul>
+                    <li class="select">
+                        <label>Type </label>
+                        <h:selectOneMenu value = "#{resultatBean.resultat_type}"  valueChangeListener = "#{resultatBean.localeChanged}" >
+                            <f:selectItem itemValue = "Resultat_psd_1" itemLabel = "Election présdientielle 1" />
+                            <f:selectItem itemValue = "Resultat_psd_2" itemLabel = "Election présdientielle 2" />
+                            <f:selectItem itemValue = "Resultat_log_1" itemLabel = "Election législative 1" />
+                            <f:selectItem itemValue = "Resultat_log_2" itemLabel = "Election législative 2" />
+                            <f:ajax render="@form"  />
+                        </h:selectOneMenu>
+                    </li>
+                </ul>
                 <ul>
                     <li class="select">
                         <label>Nom et Prenom : </label>
                         <h:selectOneMenu value = "#{resultatBean.candidat}">
-                            <f:selectItems  value="#{resultatBean.fullNameList}" var="c" itemValue="#{c[0]} #{c[1]}" itemLabel="#{c[0]} #{c[1]}">
+                            <f:selectItems  value="#{resultatBean.fullNameList}" var="c" itemValue="#{c[0]}_#{c[1]}" itemLabel="#{c[0]} #{c[1]}">
                             </f:selectItems> 
                              <f:ajax render="@form" />      
                         </h:selectOneMenu>
@@ -45,7 +57,7 @@
 
                         <h:column>
                             <f:facet name="header">
-                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ARR')}">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_LIB')}">
                                     <f:ajax render="@form"/>
                                     Numero arrondissement
                                 </h:commandLink>
@@ -55,7 +67,7 @@
 
                         <h:column>
                             <f:facet name="header">
-                                <h:commandLink action="#{bureauBean.sortByOrder('BY_NOM')}">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ADR')}">
                                     <f:ajax render="@form"/>
                                     Nom Candidat
                                 </h:commandLink>
@@ -65,7 +77,7 @@
 
                         <h:column>
                             <f:facet name="header">
-                                <h:commandLink action="#{bureauBean.sortByOrder('BY_PRENOM')}">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ADR')}">
                                       <f:ajax render="@form"/>
                                     Prenom Candidat
                                 </h:commandLink>
@@ -75,7 +87,7 @@
 
                    <h:column>
                             <f:facet name="header">
-                                <h:commandLink action="#{bureauBean.sortByOrder('NBR_VOTE')}">
+                                <h:commandLink action="#{bureauBean.sortByOrder('BY_ADR')}">
                                       <f:ajax render="@form"/>
                                     Nombre de voix
                                 </h:commandLink>
@@ -92,6 +104,7 @@
                          </div>
                         <div class="score">
                          <a href="#" class="support">#{resultatBean.scoreGlobal}</a>
+                          
                         </div>
                </div>
                <a  name="detail" href="score.xhtml#detail">VOIR DETAILS ....</a>                        

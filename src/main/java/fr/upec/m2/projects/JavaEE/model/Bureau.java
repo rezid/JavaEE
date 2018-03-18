@@ -6,6 +6,15 @@ import java.io.Serializable;
 
 @Entity
 @NamedQueries({
+    
+    
+     @NamedQuery(
+                name = "Bureau.getAllAdresse",
+                query = "SELECT DISTINCT _bureau.Adresse_bureau  FROM Bureau _bureau"),
+    
+     @NamedQuery(
+                name = "Bureau.updateData",
+                query = "UPDATE Bureau b SET b.numero_bureau = :numBureau , b.Adresse_bureau = :adresse , b.code_postal_bureau = :codePostal , b.label_bureau = :labelBureau WHERE b.id =:id "),
         @NamedQuery(
                 name = "Bureau.getAllBureau",
                 query = "SELECT _bureau FROM Bureau _bureau"),

@@ -12,6 +12,10 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
+import javafx.scene.control.TableColumn.CellEditEvent;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import org.primefaces.event.RowEditEvent;
 
 
 @ViewScoped
@@ -26,7 +30,7 @@ public class BureauBean implements Serializable {
     private boolean is_adr_asc = true;
     private boolean is_label_asc = true;
     private boolean is_cp_asc = true;
-
+    private List<String> adresses;
     private FilterList filterList;
     private String code_postale;
 
@@ -42,6 +46,7 @@ public class BureauBean implements Serializable {
     public void init() {
         setCodePostale("75000");
         sortByOrder("BY_LIB");
+        adresses = bureauService.getAllAdresse();
     }
 
     public List<Bureau> getBureauList() {
@@ -50,6 +55,14 @@ public class BureauBean implements Serializable {
 
     public List<Filter> getFilterList() {
         return filterList.getFilterList();
+    }
+
+    public List<String> getAdresses() {
+        return adresses;
+    }
+
+    public void setAdresses(List<String> adresses) {
+        this.adresses = adresses;
     }
 
     public int getListSize() {
@@ -119,6 +132,27 @@ public class BureauBean implements Serializable {
 
             default:
                 break;
+        }
+    }
+    
+        public void onRowEdit(RowEditEvent event) {
+        bureauService.updateData(((Bureau) event.getObject()).getId(), ((Bureau) event.getObject()).getNumero_bureau(),((Bureau) event.getObject()).getAdresse_bureau(),((Bureau) event.getObject()).getCode_postal_bureau(), ((Bureau) event.getObject()).getLabel_bureau());
+        FacesMessage msg = new FacesMessage("Bureau Edited", Long.toString(((Bureau) event.getObject()).getId()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+     
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", Long.toString(((Bureau) event.getObject()).getId()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+     
+    public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+         
+        if(newValue != null && !newValue.equals(oldValue)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
 }
