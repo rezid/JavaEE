@@ -14,7 +14,10 @@ import java.io.Serializable;
      @NamedQuery(
                 name = "Resultat_psd_2.getListCandidat",
                 query = "SELECT _result.nom_du_candidat,_result.prenom_du_candidat,SUM(_result.nombre_de_voix_du_candidat),SUM(_result.nombre_de_votants) FROM Resultat_psd_2 _result GROUP BY _result.nom_du_candidat,_result.prenom_du_candidat " ),
-   
+     @NamedQuery(
+                name="Resultat_psd_2.getResultGlobal",
+                query = "SELECT _result FROM Resultat_psd_2 _result "
+        ),
         @NamedQuery(
                 name = "Resultat_psd_2.getResultByName",
                 query = "SELECT _result FROM Resultat_psd_2 _result "

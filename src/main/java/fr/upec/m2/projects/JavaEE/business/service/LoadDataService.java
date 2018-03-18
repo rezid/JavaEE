@@ -71,7 +71,7 @@ public class LoadDataService {
         }
 
 
-        load_res("data/resultat_psd_2017_1er.csv",1);
+        load_res("data/res_psd_1.csv",1);
         load_res("data/res_psd_2.csv",2);
         load_res("data/res_leg_1.csv",3);
         load_res("data/res_leg_2.csv",4);

@@ -22,6 +22,10 @@ import java.io.Serializable;
                 name="Resultat_log_2.getStatistiqueByArrondissement",
                 query = "SELECT _result.numero_arrendissement,SUM(_result.nombre_de_votants)as nombre_votans,SUM(_result.nombre_inscrits)as nombres_inscrits,SUM(_result.nombre_d_exprimes) as nombre_exprim� FROM Resultat_log_2 _result GROUP BY _result.numero_arrendissement"
         ),    
+                @NamedQuery(
+                name="Resultat_log_2.getResultGlobal",
+                query = "SELECT _result FROM Resultat_log_2 _result "
+        ),
       @NamedQuery(
                 name="Resultat_log_2.getStatistiqueByBureaux",
                 query = "SELECT _result.numero_de_bureau_de_vote ,SUM(_result.nombre_de_votants)as nombre_votans,SUM(_result.nombre_inscrits)as nombres_inscrits,SUM(_result.nombre_d_exprimes) as nombre_exprim� FROM Resultat_log_2 _result GROUP BY _result.numero_de_bureau_de_vote"

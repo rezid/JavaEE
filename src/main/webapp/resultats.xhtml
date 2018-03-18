@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<ui:composition template="/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                >
+    <ui:define name="content">
+        <h:form>
+            <section class="filter">
+                <h4> enregistrement(s) trouvé(s)</h4>
+                <ui:repeat value="#{bureauBean.filterList}" var="filter">
+                    <p>#{filter.name}: #{filter.value}</p>
+                </ui:repeat>
+                <h4>Filtre statique</h4>
+                <ul>
+                    <li class="select">
+                        <label> Filtre  </label>
+                        <h:selectOneMenu value="#{resultatGlobalBean.critereSelection}">
+                            <f:selectItem itemValue="1" itemLabel="Presd 1 " />
+                            <f:selectItem itemValue="2" itemLabel="Preed 2 " />
+                            <f:selectItem itemValue="3" itemLabel="legis 1 " />
+                            <f:selectItem itemValue="4" itemLabel="legis 2 " />
+                            <f:ajax render="@form" listener="#{resultatGlobalBean.getResultatByCritere}"/>      
+                        </h:selectOneMenu>
+                    </li>
+                </ul>
+                <h4>Recherche par adresse</h4>
+                <ul>
+                    <li class="select">
+                        <label for="adresse">Votre adresse: </label>
+                        <input type="text" id="adresse" name="adresse" placeholder="47 Rue President Macron"/>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="contenu">
+                <h2>#{resultatGlobalBean.candidat}</h2>
+                <div id="scrolltable">
+                    <h:dataTable value="#{resultatGlobalBean.resultList}"
+                                 var="resultList"
+                                 >                     
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{resultatGlobalBean.sortByOrder('NOM_COND')}">
+                                    <f:ajax render="@form"/>
+                                    Nom du condidat
+                                </h:commandLink>
+                            </f:facet>
+                            #{resultList.nom_du_candidat} #{resultList.prenom_du_candidat}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{resultatGlobalBean.sortByOrder('BY_ARR')}">
+                                    <f:ajax render="@form"/>
+                                    Numero arrondissement
+                                </h:commandLink>
+                            </f:facet>
+                            #{resultList.numero_arrendissement}
+                        </h:column>
+
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{resultatGlobalBean.sortByOrder('BY_BRU')}">
+                                    <f:ajax render="@form"/>
+                                    Numero de bureau
+                                </h:commandLink>
+                            </f:facet>
+                            #{resultList.numero_de_bureau_de_vote}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{resultatGlobalBean.sortByOrder('NBR_VOTE')}">
+                                    <f:ajax render="@form"/>
+                                    nombre voix de vote
+                                </h:commandLink>
+                            </f:facet>
+                            #{resultList.nombre_de_voix_du_candidat}
+                        </h:column>
+
+                    </h:dataTable>
+                </div>
+
+            </section>   
+           
+            <div style="margin-left: 350px; margin-top: 100px">
+            <h1 style="text-align: center;margin-top: 50px"> Le gagnant par arrondissement </h1>
+
+                <c:forEach var="item" items="#{resultatGlobalBean.resultWinners}">
+                    <div  style="display: inline-table;font-weight: bold;"> 
+                        <h:graphicImage style="width:150px; margin-right: 90px; height: 150px; border-radius: 50%;"  library="images" name="#{item[0]}.jpg"/>
+                        <div  style="background-color:  skyblue">   
+                        <div style="margin-bottom: 10px; background-color: skyblue">  Arrondissement : <h:outputText value="#{item[1]}"  style="margin-bottom:50px"/> </div>
+                        <div> Score :  <h:outputText value="#{item[2]}" style="margin-right: 50px" /> </div>
+                        </div>
+                    </div>
+                </c:forEach> 
+            </div>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="h1">
+        Résultat et classement des candaidats par arrondissements et bureaux de votes.
+    </ui:define>
+
+</ui:composition>

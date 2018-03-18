@@ -17,7 +17,10 @@ import java.io.Serializable;
                 name = "Resultat_log_1.getResultByName",
                 query = "SELECT _result FROM Resultat_log_1 _result "
                         + "WHERE _result.nom_du_candidat = :nomC AND _result.prenom_du_candidat = :prenomC"),
-                        
+       @NamedQuery(
+                name="Resultat_log_1.getResultGlobal",
+                query = "SELECT _result FROM Resultat_log_1 _result "
+        ),          
             @NamedQuery(
                 name="Resultat_log_1.getStatistiqueByArrondissement",
                 query = "SELECT _result.numero_arrendissement,SUM(_result.nombre_de_votants)as nombre_votans,SUM(_result.nombre_inscrits)as nombres_inscrits,SUM(_result.nombre_d_exprimes) as nombre_exprim� FROM Resultat_log_1 _result GROUP BY _result.numero_arrendissement"
