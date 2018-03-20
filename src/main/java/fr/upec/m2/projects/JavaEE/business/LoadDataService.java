@@ -31,7 +31,7 @@ public class LoadDataService {
 
     private static final Logger LOG  = LogManager.getLogger(LoadDataService.class);
     private static final int PRECISION = 1; // number of persisted object before committing.
-    private static final int MAX = 10000;//150000; // Must be grater than 146562 to parse all tuple in csv files
+    private static final int MAX = 100;//150000; // Must be grater than 146562 to parse all tuple in csv files
 
     @PersistenceContext
     private EntityManager entityManager;
