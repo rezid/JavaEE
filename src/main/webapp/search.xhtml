@@ -15,6 +15,7 @@
 
 
 
+
         <div class="ui-g">
             <div class="ui-g-1">
             </div>
@@ -64,8 +65,11 @@
                                 <f:ajax event="focus" execute="@this"/>
                             </p:autoComplete>
 
-                            <p:commandButton value="Rechercher" icon="fa fa-search" />
-                            <p:commandButton value="Afficher tout les bureaux de vote" icon="fa fa-times" />
+                            <p:commandButton  value="Rechercher" icon="fa fa-search"
+                                              action="#{mapBean.searchAddressAndShow}" />
+                            <p:commandButton value="Afficher tout les bureaux de vote" icon="fa fa-times"
+                                             action="#{mapBean.showAllOffice}"
+                            />
 
                         </h:panelGrid>
 
@@ -75,8 +79,9 @@
             </div>
 
             <div class="ui-g-7">
-                <p:gmap center="48.856614, 2.3522219000000177" zoom="12" type="terrain"
-                        style="width:100%;height:100%;float:right" model="#{mapBean.mapModel}" />
+                <p:gmap id="gmapid" center="#{mapBean.centerMapCoordinate}" zoom="15" type="terrain"
+                        style="width:100%;height:100%;float:right" model="#{mapBean.mapModel}" >
+                </p:gmap>
             </div>
 
             <div class="ui-g-1">

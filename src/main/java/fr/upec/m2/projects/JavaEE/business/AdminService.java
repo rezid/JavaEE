@@ -22,8 +22,6 @@ public class AdminService implements Serializable {
                 .setParameter("password", password)
                 .getSingleResult();
         return admin!=null;
-        
-                
     }
 
     

@@ -18,10 +18,12 @@ public class Zone implements Serializable {
     @Id
     private String office_number; // ex: 18-46
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
+    @OrderColumn
     private List<Double> polygon_latitude_gps_coordinate_list;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
+    @OrderColumn
     private List<Double> polygon_longitude_gps_coordinate_list;
 
     @Column(nullable = false)
