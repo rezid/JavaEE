@@ -2,8 +2,10 @@ package fr.upec.m2.projects.JavaEE.view;
 
 import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
+import fr.upec.m2.projects.JavaEE.business.OfficeService;
 import fr.upec.m2.projects.JavaEE.business.ZoneService;
 import fr.upec.m2.projects.JavaEE.model.Address;
+import fr.upec.m2.projects.JavaEE.model.Office;
 import fr.upec.m2.projects.JavaEE.model.Zone;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,7 +33,9 @@ public class MapBean implements Serializable {
     private MapModel mapModel = new DefaultMapModel();
     private String centerMapCoordinate;
     private List<Zone> zone_list;
-
+    private String message;
+    private String color;
+    private String address;
     private int state = 0; // we use an automate to make transition
 
     @Inject
@@ -39,6 +43,9 @@ public class MapBean implements Serializable {
 
     @Inject
     private AddressBean addressBean;
+
+    @Inject
+    private OfficeService officeService;
 
     //------------------------------------------------------------------------------------------------------------------
 
@@ -49,6 +56,7 @@ public class MapBean implements Serializable {
     public void init() {
         zone_list = zoneService.getAllZone();
         putAllOfficeInMapModel();
+        state(0);
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -77,6 +85,30 @@ public class MapBean implements Serializable {
         this.zone_list = zone_list;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     //------------------------------------------------------------------------------------------------------------------
 
     public void searchAddressAndShow() {
@@ -85,13 +117,17 @@ public class MapBean implements Serializable {
         LOG.error("searchAddressAndShow() is called.");
         LOG.error("{} address found.", address_list_found.size());
 
-        if (address_list_found.size() == 0)
+        if (address_list_found.size() == 0) {
+            mapModel.getMarkers().clear();
+            mapModel.getPolygons().clear();
+            state(1);
             return;
+        }
 
         Double lat = address_list_found.get(0).getLatitude_gps_coordinate();
         Double lon = address_list_found.get(0).getLongitude_gps_coordinate();
 
-        if (state == 1) {
+        if (state == 2 || state == 3) {
             for (Marker marker: mapModel.getMarkers()) {
                 LatLng latLng = marker.getLatlng();
                 if(latLng.getLng() == lon && latLng.getLat() == lat)
@@ -100,6 +136,7 @@ public class MapBean implements Serializable {
         }
 
         mapModel.getMarkers().clear();
+        mapModel.getPolygons().clear();
         mapModel.addOverlay(new Marker(new LatLng(lat, lon)));
         centerMapCoordinate = lat + ", " + lon;
 
@@ -116,11 +153,10 @@ public class MapBean implements Serializable {
         });
         */
 
-        //test
         GeometryFactory geometryFactory = new GeometryFactory();
         Point my_address_point = geometryFactory.createPoint(new Coordinate(lat, lon));
 
-        zone_list.forEach( zone -> {
+        for (Zone zone: zone_list) {
             List<Coordinate> coordinate_list = new ArrayList<>();
             for(int i = 0; i < zone.getPolygon_latitude_gps_coordinate_list().size(); i++)
                 coordinate_list.add(new Coordinate(
@@ -143,12 +179,18 @@ public class MapBean implements Serializable {
                                 zone.getLatitude_gps_coordinate(),
                                 zone.getLongitude_gps_coordinate()), zone.getOffice_number(), null,
                                 "http://maps.google.com/mapfiles/ms/micons/blue-dot.png"));
-                LOG.error("contain: {}", polygon.contains(my_address_point));
-                LOG.error("covers: {}", polygon.covers(my_address_point));
-            }
-        });
 
-        state = 1;
+                Office office = officeService.getOfficeByNumber(zone.getOffice_number());
+                this.address = office.getStreet_number() + ", " + office.getStreet_name() + ", " +
+                    office.getZip_code();
+
+                state(2);
+                PrimeFaces.current().ajax().update("gmapid");
+                return;
+            }
+        };
+
+        state(3);
         PrimeFaces.current().ajax().update("gmapid");
     }
 
@@ -159,9 +201,7 @@ public class MapBean implements Serializable {
         mapModel.getMarkers().clear();
         mapModel.getPolygons().clear();
         putAllOfficeInMapModel();
-        state = 0;
-
-
+        state(0);
         PrimeFaces.current().ajax().update("gmapid");
     }
 
@@ -174,6 +214,32 @@ public class MapBean implements Serializable {
                 "http://maps.google.com/mapfiles/ms/micons/blue-dot.png")
         ));
         centerMapCoordinate = "48.856614, 2.3522219000000177"; // Paris
+    }
+
+    private void state(int state) {
+        switch (state) {
+            case 0:
+                color = "black";
+                message = "Tout les bureaux de vote sont affichés en bleu sur la carte";
+                this.state = 0;
+                break;
+            case 1:
+                color = "red";
+                message = "adresse tapez introuvable.";
+                this.state = 1;
+                break;
+            case 2:
+                color = "green";
+                message = "votre adresse est localisé, l'adresse de votre bureau de vote est: " + this.address;
+                this.state = 2;
+                break;
+            case 3:
+                color = "blue";
+                message = "votre adresse est localisé, mais l'adresse de votre bureau est introuvable.";
+                this.state = 2;
+                break;
+        }
+        PrimeFaces.current().ajax().update("messageid");
     }
 
     //------------------------------------------------------------------------------------------------------------------

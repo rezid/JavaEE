@@ -28,9 +28,9 @@ public class OfficeService implements Serializable {
                 .getResultList();
     }
 
-    public List<Office> getOfficeByNumber(String office_number) {
+    public Office getOfficeByNumber(String office_number) {
         return entityManager.createNamedQuery("Office.getOfficeByNumber", Office.class)
                 .setParameter("office_number", office_number)
-                .getResultList();
+                .getSingleResult();
     }
 }
