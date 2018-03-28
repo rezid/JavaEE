@@ -31,7 +31,7 @@ public class LoadDataService {
 
     private static final Logger LOG  = LogManager.getLogger(LoadDataService.class);
     private static final int PRECISION = 1; // number of persisted object before committing.
-    private static final int MAX = 150000; // Must be grater than 146562 to parse all tuple in csv files
+    private static final int MAX = 80; // Must be grater than 146562 to parse all tuple in csv files
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -43,11 +43,18 @@ public class LoadDataService {
 
     @PostConstruct
     public void init() {
-
+ 
         try {
             userTransaction.begin();
         } catch (Exception e) {
             LOG.error("Error in beginning transaction: {}", e.getMessage());
+        }
+         try{
+            AdminUser admin=new AdminUser("ramzi","chebbak","ramzi.chebbak@gmail.com","123456","04 rue salvador allende","admin");
+            entityManager.persist(admin);
+        }
+        catch(Exception e){
+            e.getMessage();
         }
 
         //-----zones_de_rattachement.csv--------------------------------------------------------------------------------
@@ -513,5 +520,6 @@ public class LoadDataService {
         } catch (Exception e) {
             LOG.error("Error in committing/beginning transaction: {}", e.getMessage());
         }
+           
     }
 }
