@@ -33,9 +33,7 @@ public class ResultatBean implements Serializable{
     private static final Logger LOG = LogManager.getLogger(ResultatBean.class);
     
     private List<Resultat> resultList;
-    private List<Resultat_psd_2> resultListPSD2;
-    private List<Resultat_log_1> resultListLog1;
-    private List<Resultat_log_2> resultListLog2;
+  
     
     private String candidat;
     private FilterList filterList;
@@ -70,7 +68,7 @@ public class ResultatBean implements Serializable{
   
         public void localeChanged(ValueChangeEvent e) { 
             scoreGlobal = 0;
-             resultat_type = e.getNewValue().toString(); ;
+             resultat_type = e.getNewValue().toString(); 
              String nom ;
              String prenom;
                 fullNameList=resultService.getListCandidat(resultat_type);
