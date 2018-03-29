@@ -65,6 +65,16 @@ public class StatistiqueBean  implements Serializable{
        
     }
 
+       public String getTypeElection() {
+        return typeElection;
+    }
+
+    public void setTypeElection(String typeElection) {
+        this.typeElection = typeElection;
+        resultStatistique=statistiqueService.getStatistiqueByArrondissement(typeElection);
+        fullNameList=resultService.getListCandidat(typeElection);
+        String n="";
+    }
     public String getStatistique() {
         return statistique;
     }
@@ -80,7 +90,8 @@ public class StatistiqueBean  implements Serializable{
            }
         else{
             fullNameList=resultService.getListCandidat(typeElection);
-            String a="n";
+           
+            String e="";
         }
         
         
@@ -111,16 +122,7 @@ public class StatistiqueBean  implements Serializable{
     public List<Filter> getFilterList() {
         return filterList.getFilterList();
     }
-   public String getTypeElection() {
-        return typeElection;
-    }
 
-    public void setTypeElection(String typeElection) {
-        this.typeElection = typeElection;
-        resultStatistique=statistiqueService.getStatistiqueByArrondissement(typeElection);
-        fullNameList=resultService.getListCandidat(typeElection);
-        
-    }
     
 
 }

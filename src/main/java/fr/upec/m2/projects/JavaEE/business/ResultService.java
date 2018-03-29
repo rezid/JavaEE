@@ -3,12 +3,13 @@ import fr.upec.m2.projects.JavaEE.model.Resultat;
 import fr.upec.m2.projects.JavaEE.model.Resultat_psd_1;
 import java.io.Serializable;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
+@Stateless
 public class ResultService  implements Serializable {
     private static final long serialVersionUID = 1L;
     

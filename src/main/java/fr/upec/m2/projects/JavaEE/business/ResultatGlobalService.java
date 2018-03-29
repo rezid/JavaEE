@@ -4,6 +4,7 @@ import fr.upec.m2.projects.JavaEE.model.Resultat;
 import fr.upec.m2.projects.JavaEE.model.Resultat_psd_1;
 import java.io.Serializable;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
@@ -15,6 +16,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author ramzi
  */
+@Stateless
 public class ResultatGlobalService implements Serializable {
 
     private static final long serialVersionUID = 1L;

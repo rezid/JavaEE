@@ -20,21 +20,15 @@
                     <li class="select">
                         <label> Filtre  </label>
                         <h:selectOneMenu value="#{resultatGlobalBean.critereSelection}">
-                            <f:selectItem itemValue="1" itemLabel="Presd 1 " />
-                            <f:selectItem itemValue="2" itemLabel="Preed 2 " />
-                            <f:selectItem itemValue="3" itemLabel="legis 1 " />
-                            <f:selectItem itemValue="4" itemLabel="legis 2 " />
+                            <f:selectItem itemValue="1" itemLabel="Presidentielle tour 1 " />
+                            <f:selectItem itemValue="2" itemLabel="Presidentielle tour 2 " />
+                            <f:selectItem itemValue="3" itemLabel="legislative tour 1 " />
+                            <f:selectItem itemValue="4" itemLabel="legislative tour 2 " />
                             <f:ajax render="@form" listener="#{resultatGlobalBean.getResultatByCritere}"/>      
                         </h:selectOneMenu>
                     </li>
                 </ul>
-                <h4>Recherche par adresse</h4>
-                <ul>
-                    <li class="select">
-                        <label for="adresse">Votre adresse: </label>
-                        <input type="text" id="adresse" name="adresse" placeholder="47 Rue President Macron"/>
-                    </li>
-                </ul>
+              
             </section>
 
             <section class="contenu">
